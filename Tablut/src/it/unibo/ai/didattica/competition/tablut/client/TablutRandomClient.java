@@ -10,7 +10,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
 
 /**
- * 
+ *
  * @author A. Piretti, Andrea Galassi
  *
  */
@@ -73,27 +73,27 @@ public class TablutRandomClient extends TablutClient {
 
 		Game rules = null;
 		switch (this.game) {
-		case 1:
-			state = new StateTablut();
-			rules = new GameTablut();
-			break;
-		case 2:
-			state = new StateTablut();
-			rules = new GameModernTablut();
-			break;
-		case 3:
-			state = new StateBrandub();
-			rules = new GameTablut();
-			break;
-		case 4:
-			state = new StateTablut();
-			state.setTurn(State.Turn.WHITE);
-			rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
-			System.out.println("Ashton Tablut game");
-			break;
-		default:
-			System.out.println("Error in game selection");
-			System.exit(4);
+			case 1:
+				state = new StateTablut();
+				rules = new GameTablut();
+				break;
+			case 2:
+				state = new StateTablut();
+				rules = new GameModernTablut();
+				break;
+			case 3:
+				state = new StateBrandub();
+				rules = new GameTablut();
+				break;
+			case 4:
+				state = new StateTablut();
+				state.setTurn(State.Turn.WHITE);
+				rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
+				System.out.println("Ashton Tablut game");
+				break;
+			default:
+				System.out.println("Error in game selection");
+				System.exit(4);
 		}
 
 		List<int[]> pawns = new ArrayList<int[]>();
@@ -118,7 +118,7 @@ public class TablutRandomClient extends TablutClient {
 			}
 
 			if (this.getPlayer().equals(Turn.WHITE)) {
-				// è il mio turno
+				// Ã¨ il mio turno
 				if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITE)) {
 					int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
@@ -187,7 +187,7 @@ public class TablutRandomClient extends TablutClient {
 					empty.clear();
 
 				}
-				// è il turno dell'avversario
+				// Ã¨ il turno dell'avversario
 				else if (state.getTurn().equals(StateTablut.Turn.BLACK)) {
 					System.out.println("Waiting for your opponent move... ");
 				}
@@ -209,7 +209,7 @@ public class TablutRandomClient extends TablutClient {
 
 			} else {
 
-				// è il mio turno
+				// Ã¨ il mio turno
 				if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
 					int[] buf;
 					for (int i = 0; i < state.getBoard().length; i++) {
