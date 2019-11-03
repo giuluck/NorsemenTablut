@@ -5,7 +5,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.Game
 import it.unibo.ai.didattica.competition.tablut.domain.State
 
 /**
- * Retrieves all successor states for a given board state by applying
+ * Retrieve all successor states for a given board state by applying
  * all legal moves to clones of the current board state.
  */
 fun State.getSuccessors(rules: Game): List<State> = this.getAllLegalMoves(rules)
@@ -16,7 +16,7 @@ fun State.getSuccessors(rules: Game): List<State> = this.getAllLegalMoves(rules)
  */
 fun State.getAllLegalMoves(rules: Game): List<Action> = this.getPlayerCoords(this.turn)
         .asSequence()
-        .flatMap { this.getLegalMovesForCoord(it, rules) }
+        .flatMap { this.getLegalMovesForCoord(it, rules).asSequence() }
         .toList()
 
 /**
@@ -41,11 +41,12 @@ fun State.getPlayerCoords(player: State.Turn): Set<Coord> = when (player) {
 /**
  * Get all legal moves for the passed position in the current board state.
  */
-fun State.getLegalMovesForCoord(start: Coord, rules: Game): Sequence<Action> = start
+fun State.getLegalMovesForCoord(start: Coord, rules: Game): List<Action> = start
         .let { Direction.values().flatMap { dir -> this.getCoordsInDirection(start, dir) } }
-        .map { Action(start.toString(), it.toString(), this.turn) }
         .asSequence()
+        .map { Action(start.toString(), it.toString(), this.turn) }
         .filter { this.isValidMove(it, rules) }
+        .toList()
 
 /**
  * Get all the existing coordinates starting from a given position and
