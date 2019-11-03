@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient
+package it.unibo.ai.didattica.competition.tablut.aiclient.board
 
 /**
  * Represents a possible moving direction on the game board.

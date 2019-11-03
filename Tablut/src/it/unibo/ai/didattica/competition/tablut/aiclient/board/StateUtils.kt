@@ -1,15 +1,8 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient
+package it.unibo.ai.didattica.competition.tablut.aiclient.board
 
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.Game
 import it.unibo.ai.didattica.competition.tablut.domain.State
-
-/**
- * Retrieve all successor states for a given board state by applying
- * all legal moves to clones of the current board state.
- */
-fun State.successors(rules: Game): List<State> = this.allLegalMoves(rules)
-        .map { rules.checkMove(this.clone(), it) }
 
 /**
  * Get all legal moves for the player who has to move.
