@@ -8,21 +8,21 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
  * Retrieve all successor states for a given board state by applying
  * all legal moves to clones of the current board state.
  */
-fun State.getSuccessors(rules: Game): List<State> = this.getAllLegalMoves(rules)
+fun State.successors(rules: Game): List<State> = this.allLegalMoves(rules)
         .map { rules.checkMove(this.clone(), it) }
 
 /**
  * Get all legal moves for the player who has to move.
  */
-fun State.getAllLegalMoves(rules: Game): List<Action> = this.getPlayerCoords(this.turn)
+fun State.allLegalMoves(rules: Game): List<Action> = this.playerCoords(this.turn)
         .asSequence()
-        .flatMap { this.getLegalMovesForCoord(it, rules).asSequence() }
+        .flatMap { this.legalMovesForCoord(it, rules).asSequence() }
         .toList()
 
 /**
  * Get the coordinates of all the pawns the current player owns.
  */
-fun State.getPlayerCoords(player: State.Turn): Set<Coord> = when (player) {
+fun State.playerCoords(player: State.Turn): Set<Coord> = when (player) {
     State.Turn.WHITE -> setOf(State.Pawn.WHITE, State.Pawn.KING)
     State.Turn.BLACK -> setOf(State.Pawn.BLACK)
     else -> setOf()
@@ -41,8 +41,8 @@ fun State.getPlayerCoords(player: State.Turn): Set<Coord> = when (player) {
 /**
  * Get all legal moves for the passed position in the current board state.
  */
-fun State.getLegalMovesForCoord(start: Coord, rules: Game): List<Action> = start
-        .let { Direction.values().flatMap { dir -> this.getCoordsInDirection(start, dir) } }
+fun State.legalMovesForCoord(start: Coord, rules: Game): List<Action> = start
+        .let { Direction.values().flatMap { dir -> this.coordsInDirection(start, dir) } }
         .asSequence()
         .map { Action(start.toString(), it.toString(), this.turn) }
         .filter { this.isValidMove(it, rules) }
@@ -52,7 +52,7 @@ fun State.getLegalMovesForCoord(start: Coord, rules: Game): List<Action> = start
  * Get all the existing coordinates starting from a given position and
  * proceeding always in the same direction until the end of the board is reached.
  */
-private fun State.getCoordsInDirection(start: Coord, dir: Direction): List<Coord> = when (dir) {
+private fun State.coordsInDirection(start: Coord, dir: Direction): List<Coord> = when (dir) {
     Direction.TOP -> start.getCoordsUntil(Coord(0, start.y))
     Direction.DOWN -> start.getCoordsUntil(Coord(this.board.size - 1, start.y))
     Direction.LEFT -> start.getCoordsUntil(Coord(start.x, 0))
