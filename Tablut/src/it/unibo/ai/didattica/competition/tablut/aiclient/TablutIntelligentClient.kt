@@ -23,36 +23,12 @@ class TablutIntelligentClient @JvmOverloads constructor(
     timeout: Int = 60,
     ipAddress: String = "localhost"
 ) : TablutClient(player, "Norsemen", timeout, ipAddress) {
-
+    
     override fun run() {
-        /* The player communicates its name to the server */
-        try {
-            this.declareName()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        /* Then it starts to play */
+        declareName()
         while(true) {
-            /* Read the current game state from the server */
-            try {
-                this.read()
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-                exitProcess(1)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                exitProcess(1)
-            }
-            /* Compute next move */
-            val nextMove: Action = computeNextMove()
-            /* Execute next move */
-            try {
-                this.write(nextMove)
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            read()
+            write(computeNextMove())
         }
     }
 
