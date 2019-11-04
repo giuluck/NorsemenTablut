@@ -23,10 +23,10 @@ data class Coord(val x: Int, val y: Int) {
 
     override fun toString(): String = (x + 97).toChar() + (y + 1).toString()
 
-    fun sameRow(c: Coord) = x == c.x
+    fun sameRow(c: Coord): Boolean = x == c.x
 
-    fun sameColumn(c: Coord) = y == c.y
+    fun sameColumn(c: Coord): Boolean = y == c.y
 
-    private fun betweenRange(a: Int, b: Int) =
+    private fun betweenRange(a: Int, b: Int): IntRange =
         if (a < b) a + 1 until b else b + 1 until a
 }
