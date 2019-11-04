@@ -1,6 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.board
 
-import java.lang.Math.abs
+import kotlin.math.abs
 
 data class Coord(val x: Int, val y: Int) {
     /**
@@ -14,7 +14,7 @@ data class Coord(val x: Int, val y: Int) {
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an empty list will be returned.
      */
-    fun getCoordsUntil(c: Coord): List<Coord> = when {
+    fun coordsUntil(c: Coord): List<Coord> = when {
         this.x == c.x && this.y != c.y ->
             (1 until this.distanceTo(c)).map { Coord(
                 this.x,

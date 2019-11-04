@@ -46,10 +46,10 @@ fun State.legalMovesForCoord(start: Coord, rules: Game): List<Action> = start
  * proceeding always in the same direction until the end of the board is reached.
  */
 private fun State.coordsInDirection(start: Coord, dir: Direction): List<Coord> = when (dir) {
-    Direction.TOP -> start.getCoordsUntil(Coord(0, start.y))
-    Direction.DOWN -> start.getCoordsUntil(Coord(this.board.size - 1, start.y))
-    Direction.LEFT -> start.getCoordsUntil(Coord(start.x, 0))
-    Direction.RIGHT -> start.getCoordsUntil(Coord(start.x, this.board[0].size - 1))
+    Direction.TOP -> start.coordsUntil(Coord(0, start.y))
+    Direction.DOWN -> start.coordsUntil(Coord(this.board.size - 1, start.y))
+    Direction.LEFT -> start.coordsUntil(Coord(start.x, 0))
+    Direction.RIGHT -> start.coordsUntil(Coord(start.x, this.board[0].size - 1))
 }
 
 /**
