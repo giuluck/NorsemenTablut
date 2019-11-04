@@ -3,6 +3,7 @@
 build
 garbage
 logs
+bin
 
 # Prerequisites
 *.d
