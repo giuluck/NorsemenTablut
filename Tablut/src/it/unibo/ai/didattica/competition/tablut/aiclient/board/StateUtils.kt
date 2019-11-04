@@ -55,8 +55,6 @@ private fun State.coordsInDirection(coord: Coord, dir: Direction): List<Coord> =
  *
  * In order not to perform the action but actually only checking its correctness,
  * instead of the original state one copy of it is evaluated.
- *
- * TODO: The current implementation is particularly resource heavy
  */
 private fun State.isValidMove(action: Action, rules: Game): Boolean =
-        runCatching { rules.checkMove(clone(), action) }.isSuccess
+        rules.checkMove(clone(), action) != null

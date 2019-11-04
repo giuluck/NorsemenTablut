@@ -21,11 +21,17 @@ data class Coord(val x: Int, val y: Int) {
         else -> listOf()
     }
 
-    override fun toString(): String = (x + 97).toChar() + (y + 1).toString()
-
+    /**
+     * Check if the this coordinate lies on the same row of c.
+     */
     fun sameRow(c: Coord): Boolean = x == c.x
 
+    /**
+     * Check if this the coordinates lie on the same column of c.
+     */
     fun sameColumn(c: Coord): Boolean = y == c.y
+
+    override fun toString(): String = (x + 97).toChar() + (y + 1).toString()
 
     private fun betweenRange(a: Int, b: Int): IntRange =
         if (a < b) a + 1 until b else b + 1 until a

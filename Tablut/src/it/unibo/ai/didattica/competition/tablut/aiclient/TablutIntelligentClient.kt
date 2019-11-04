@@ -1,12 +1,11 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient
 
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.Player
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.Action
-import it.unibo.ai.didattica.competition.tablut.domain.Game
-import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut
 import it.unibo.ai.didattica.competition.tablut.domain.State
-import java.io.IOException
-import kotlin.system.exitProcess
 
 /**
  * An artificial intelligence based implementation of the Tablut client.
@@ -23,7 +22,22 @@ class TablutIntelligentClient @JvmOverloads constructor(
     timeout: Int = 60,
     ipAddress: String = "localhost"
 ) : TablutClient(player, "Norsemen", timeout, ipAddress) {
-    
+    private val strategy = object : IterativeDeepeningAlphaBetaSearch<State, Action, Player> (
+        AshtonTablut(), -1.0, 1.0, timeout
+    ) {
+        // TODO
+        override fun isSignificantlyBetter(newUtility: Double, utility: Double): Boolean =
+            super.isSignificantlyBetter(newUtility, utility)
+
+        // TODO
+        override fun hasSafeWinner(resultUtility: Double): Boolean =
+            super.hasSafeWinner(resultUtility)
+
+        // TODO
+        override fun eval(state: State, player: Player): Double =
+            super.eval(state, player)
+    }
+
     override fun run() {
         declareName()
         while(true) {
