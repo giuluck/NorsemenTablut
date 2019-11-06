@@ -2,7 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.Player
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutPlayer
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
@@ -22,7 +22,7 @@ class TablutIntelligentClient @JvmOverloads constructor(
     timeout: Int = 60,
     ipAddress: String = "localhost"
 ) : TablutClient(player, "Norsemen", timeout, ipAddress) {
-    private val strategy = object : IterativeDeepeningAlphaBetaSearch<State, Action, Player> (
+    private val strategy = object : IterativeDeepeningAlphaBetaSearch<State, Action, TablutPlayer> (
         AshtonTablut(), -1.0, 1.0, timeout
     ) {
         // TODO
@@ -34,7 +34,7 @@ class TablutIntelligentClient @JvmOverloads constructor(
             super.hasSafeWinner(resultUtility)
 
         // TODO
-        override fun eval(state: State, player: Player): Double =
+        override fun eval(state: State, player: TablutPlayer): Double =
             super.eval(state, player)
     }
 

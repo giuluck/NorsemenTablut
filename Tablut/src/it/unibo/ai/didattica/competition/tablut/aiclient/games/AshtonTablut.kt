@@ -1,7 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games
 
 import it.unibo.ai.didattica.competition.tablut.aiclient.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.board.isValidMove
 import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
+import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rules
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
@@ -14,26 +16,35 @@ import java.lang.IllegalStateException
 class AshtonTablut @JvmOverloads constructor(
     private val initialState: State = StateTablut()
 ) : TablutGame {
-    override fun checkMove(state: State, action: Action): State? {
-        Rule.values().map { it.checkRule(action, state) }
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
+    override val rules: Set<Rule> = setOf(
+        Rules.NO_MOVEMENT,
+        Rules.OUT_OF_BOARD,
+        Rules.DIAGONAL_MOVEMENT,
+        Rules.CLIMBING,
+        Rules.ASHTON_CITADELS
+    )
+
+    override fun checkMove(state: State, action: Action): State? =
+        if (state.isValidMove(action, rules))
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        else null
 
     override fun getInitialState(): State = initialState
 
     override fun getResult(state: State, action: Action): State =
         checkMove(state, action) ?: throw IllegalStateException("Invalid Action")
 
-    override fun getPlayer(state: State): Player = Player.fromTurn(state.turn)
+    override fun getPlayer(state: State): TablutPlayer = TablutPlayer.fromTurn(state.turn)
 
-    override fun getPlayers(): Array<Player> = Player.values()
+    override fun getPlayers(): Array<TablutPlayer> = TablutPlayer.values()
 
     override fun getActions(state: State): MutableList<Action> =
-            state.allLegalMoves(this).toMutableList()
+            state.allLegalMoves(rules).toMutableList()
 
-    override fun getUtility(state: State, player: Player): Double = when(state.turn) {
-        Turn.WHITEWIN -> if (player == Player.WHITE) 1.0 else -1.0
-        Turn.BLACKWIN -> if (player == Player.BLACK) 1.0 else -1.0
+    override fun getUtility(state: State, player: TablutPlayer): Double = when(state.turn) {
+        Turn.WHITEWIN -> if (player == TablutPlayer.WHITE) 1.0 else -1.0
+        Turn.BLACKWIN -> if (player == TablutPlayer.BLACK) 1.0 else -1.0
         Turn.DRAW -> 0.0
         else -> TODO()
     }

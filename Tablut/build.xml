@@ -42,7 +42,7 @@
         </java>
     </target>
     <target name="humanwhite">
-        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanBlackClient" fork="true">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutHumanWhiteClient" fork="true">
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="build"/>
