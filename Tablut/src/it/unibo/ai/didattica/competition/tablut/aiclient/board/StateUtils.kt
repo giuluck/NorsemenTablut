@@ -50,17 +50,14 @@ fun State.legalMovesForCoord(coord: Coord, rules: Set<Rule>): List<Action> =
  * proceeding always in the same direction until the end of the board is reached.
  */
 fun State.coordsInDirection(coord: Coord, dir: Direction): List<Coord> = when (dir) {
-    Direction.TOP -> Coord(0, coord.y).coordsUntil(coord)
-    Direction.DOWN -> Coord(board.size - 1, coord.y).coordsUntil(coord)
-    Direction.LEFT -> Coord(coord.x, 0).coordsUntil(coord)
-    Direction.RIGHT -> Coord(coord.x, board.size - 1).coordsUntil(coord)
+    Direction.TOP -> coord.coordsReaching(Coord(0, coord.y))
+    Direction.DOWN -> coord.coordsReaching(Coord(board.size - 1, coord.y))
+    Direction.LEFT -> coord.coordsReaching(Coord(coord.x, 0))
+    Direction.RIGHT -> coord.coordsReaching(Coord(coord.x, board.size - 1))
 }
 
 /**
  * Check if the action is valid or not considering the game rules and the current game state.
- *
- * In order not to perform the action but actually only checking its correctness,
- * instead of the original state one copy of it is evaluated.
  */
 fun State.isValidMove(action: Action, rules: Set<Rule>): Boolean =
     rules.all { it.check(this, action) }

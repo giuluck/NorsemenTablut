@@ -57,7 +57,7 @@ class Rules private constructor() {
         val ASHTON_CITADELS = BasicRule { state ->
             ashtonCitadels.getOrPut(state.board.size) {
                 state.center.coordsAround(state.board.size / 2)
-                    .flatMap { it.coordsAround() }
+                    .flatMap { setOf(it, *it.coordsAround().toTypedArray()) }
                     .filter { it.checkValidity(state) }
             }.let { citadels ->
                 val from = Coord(rowFrom, columnFrom)

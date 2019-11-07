@@ -42,12 +42,20 @@ data class Coord(val x: Int, val y: Int) {
     }
 
     /**
-     * Left inclusive list of all the coordinates between this and c.
+     * Left-inclusive list of all the coordinates between this and c.
      *
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an exception will be thrown.
      */
     fun coordsUntil(c: Coord): List<Coord> = listOf(this, *coordsBetween(c).toTypedArray())
+
+    /**
+     * Right-inclusive list of all the coordinates between this and c.
+     *
+     * It is assumed that the two coordinates are either in the same row or in the same column,
+     * otherwise an exception will be thrown.
+     */
+    fun coordsReaching(c: Coord): List<Coord> = listOf(*coordsBetween(c).toTypedArray(), c)
 
     /**
      * Inclusive list of all the coordinates between this and c.
@@ -67,7 +75,7 @@ data class Coord(val x: Int, val y: Int) {
      */
     fun sameColumn(c: Coord): Boolean = y == c.y
 
-    override fun toString(): String = (x + 97).toChar() + (y + 1).toString()
+    override fun toString(): String = "${(y + 97).toChar()}${(x + 1)}"
 
     private fun betweenRange(a: Int, b: Int): IntRange =
         if (a < b) a + 1 until b else b + 1 until a

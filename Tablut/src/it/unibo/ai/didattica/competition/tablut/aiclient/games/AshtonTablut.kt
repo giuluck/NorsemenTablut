@@ -13,9 +13,7 @@ import java.lang.IllegalStateException
 /**
  * Implementation of the Ashton version of Tablut using AIMA.
  */
-class AshtonTablut @JvmOverloads constructor(
-    private val initialState: State = StateTablut()
-) : TablutGame {
+class AshtonTablut() : TablutGame {
 
     override val rules: Set<Rule> = setOf(
         Rules.NO_MOVEMENT,
@@ -30,7 +28,7 @@ class AshtonTablut @JvmOverloads constructor(
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         else null
 
-    override fun getInitialState(): State = initialState
+    override fun getInitialState(): State = StateTablut()
 
     override fun getResult(state: State, action: Action): State =
         checkMove(state, action) ?: throw IllegalStateException("Invalid Action")
