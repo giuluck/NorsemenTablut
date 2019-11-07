@@ -25,5 +25,7 @@
     </orderEntry>
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="com.googlecode.aima-java:aima-core:3.0.0" level="project" />
+    <orderEntry type="library" name="io.kotlintest:kotlintest-runner-junit5:3.4.2" level="project" />
+    <orderEntry type="library" name="org.slf4j:slf4j-jdk14:1.7.12" level="project" />
   </component>
 </module>
