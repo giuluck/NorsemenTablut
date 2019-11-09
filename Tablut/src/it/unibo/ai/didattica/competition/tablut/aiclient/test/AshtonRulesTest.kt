@@ -1,51 +1,64 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.test
 
+import io.kotlintest.TestCase
 import io.kotlintest.fail
 import io.kotlintest.matchers.collections.shouldContain
+import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.collections.shouldNotContain
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.Coord
+import it.unibo.ai.didattica.competition.tablut.aiclient.board.*
 import it.unibo.ai.didattica.competition.tablut.domain.*
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
 import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.allLegalMoves
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.playerCoords
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
+import it.unibo.ai.didattica.competition.tablut.aiclient.utils.toConsole
 import kotlin.random.Random
 
-val RANDOM_GENERATOR = Random(0)
+class AshtonRulesTest : StringSpec() {
+    private lateinit var generator: Random
+    private lateinit var game: Game
+    private lateinit var state: State
+    private lateinit var referee: TablutGame
+    private lateinit var rules: Set<Rule>
 
-class AshtonRulesTest : StringSpec({
+    init {
+        "each and only valid move must be potentially performed" {
+            // brings the state to a random moment by performing 20 moves then checks
+            repeat(20) { game.checkMove(state.clone(), state.allLegalMoves(rules).random(generator)) }
+            state.allMoves.filter {
+                try {
+                    game.checkMove(state.clone(), it)
+                    true
+                } catch (e: Throwable) {
+                    false
+                }
+            }.map {
+                it.toString()
+            } shouldContainExactlyInAnyOrder state.allLegalMoves(rules).map { it.toString() }
+        }
 
-    "" +
-            "all valid moves must be potentially performed" {
-        val game: Game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
-        val state: State = StateTablut()
-        val rules: Set<Rule> = AshtonTablut().rules
-        val actions: List<Action> = state.allLegalMoves(rules)
-        actions.size shouldBe 80
-        actions.forEach {
-            val temp = state.clone()
-            try {
-                game.checkMove(temp, it)
-            } catch (e: Throwable) {
-                fail("$it is not a valid move.")
+        "simulating a match no error must be encountered" {
+            while (!referee.isTerminal(state)) {
+                state.allLegalMoves(rules).random(generator).also { move ->
+                    try {
+                        game.checkMove(state, move)
+                    } catch (e: Throwable) {
+                        state.toConsole()
+                        fail("$move is not a valid move.")
+                    }
+                }
             }
         }
     }
 
-    "simulating a match no error must be encountered" {
-        val game: Game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
-        val state: State = StateTablut()
-        val referee: TablutGame = AshtonTablut()
-        val rules: Set<Rule> = referee.rules
-        while (!referee.isTerminal(state)) {
-            val rand = state.allLegalMoves(rules).random(RANDOM_GENERATOR)
-            try {
-                game.checkMove(state, rand)
-            } catch (e: Throwable) {
-                fail("$rand is not a valid move.")
-            }
-        }
+    override fun beforeTest(testCase: TestCase) {
+        super.beforeTest(testCase)
+        generator = Random(0)
+        game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
+        state = StateTablut()
+        referee = AshtonTablut()
+        rules = referee.rules
     }
-})
+}

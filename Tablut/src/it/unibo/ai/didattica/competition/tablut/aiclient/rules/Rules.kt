@@ -65,7 +65,7 @@ class Rules private constructor() {
                 if (citadels.contains(from))
                     !citadels.contains(to) || from.distanceTo(to) <= 2
                 else
-                    from.coordsUntil(to).none { citadels.contains(it) }
+                    to.coordsUntil(from).none { citadels.contains(it) }
             }
         }
 

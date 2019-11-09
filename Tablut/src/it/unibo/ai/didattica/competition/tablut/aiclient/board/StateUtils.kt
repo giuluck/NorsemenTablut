@@ -12,6 +12,22 @@ val State.center: Coord
     get() = Coord(board.size / 2, board.size / 2)
 
 /**
+ * A list of all the possible cells of the board expressed as a Coord object.
+ */
+val State.allCoords: List<Coord>
+    get() = board.indices.flatMap { i ->
+        board.indices.map { j -> Coord(i, j) }
+    }
+
+/**
+ * A list of all the possible actions (each of them, not just the legal ones) in a state.
+ */
+val State.allMoves: List<Action>
+    get() = allCoords.flatMap { start ->
+        allCoords.map { end -> Action(start.toString(), end.toString(), turn) }
+    }
+
+/**
  * Get all legal moves for the player who has to move.
  */
 fun State.allLegalMoves(rules: Set<Rule>): List<Action> = playerCoords(turn)
