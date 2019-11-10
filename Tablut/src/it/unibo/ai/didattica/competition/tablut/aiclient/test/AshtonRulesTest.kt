@@ -2,18 +2,13 @@ package it.unibo.ai.didattica.competition.tablut.aiclient.test
 
 import io.kotlintest.TestCase
 import io.kotlintest.fail
-import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.matchers.collections.shouldNotContain
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import it.unibo.ai.didattica.competition.tablut.aiclient.board.*
 import it.unibo.ai.didattica.competition.tablut.domain.*
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
 import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
-import it.unibo.ai.didattica.competition.tablut.aiclient.utils.toConsole
 import kotlin.random.Random
 
 class AshtonRulesTest : StringSpec() {
