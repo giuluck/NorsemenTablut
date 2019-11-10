@@ -43,7 +43,7 @@ import java.util.Random;
  */
 
 public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
-	private int iterations = 0;
+	private int iterations;
 	private Game<S, A, P> game;
 	private GameTree<S, A> tree;
 	
@@ -75,7 +75,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 		return bestAction(tree.getRoot());
 	}
 	
-	private Node<S, A> select(GameTree gameTree) {
+	private Node<S, A> select(GameTree<S, A> gameTree) {
 		Node<S, A> node = gameTree.getRoot();
 		while (!game.isTerminal(node.getState()) && isNodeFullyExpanded(node)) {
 			node = gameTree.getChildWithMaxUCT(node);

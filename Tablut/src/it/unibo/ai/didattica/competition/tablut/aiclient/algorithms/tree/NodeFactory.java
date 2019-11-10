@@ -1,15 +1,11 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree;
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.problem.Problem;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Instances of this class are responsible for node creation and successor generation. They
- * compute path costs, support progress tracking, and count the number of
- * {@link #getSuccessors(Node, Problem)} calls.
+ * Instances of this class are responsible for node creation and successor generation.
  *
  * @param <S> The type used to represent states
  * @param <A> The type of the actions to be used to navigate through the state space
@@ -18,7 +14,7 @@ import java.util.function.Consumer;
  */
 public class NodeFactory<S, A> {
 
-	protected boolean useParentLinks = true;
+	private boolean useParentLinks = true;
 
 	/**
 	 * Modifies {@link #useParentLinks} and returns this node factory. When
@@ -50,30 +46,6 @@ public class NodeFactory<S, A> {
 	public Node<S, A> createNode(S state, Node<S, A> parent, A action, double stepCost) {
 		Node<S, A> p = useParentLinks ? parent : null;
 		return new Node<>(state, p, action, parent.getPathCost() + stepCost);
-	}
-
-	/**
-	 * Returns the children obtained from expanding the specified node in the specified problem.
-	 * 
-	 * @param node
-	 *            the node to expand
-	 * @param problem
-	 *            the problem the specified node is within.
-	 * 
-	 * @return the children obtained from expanding the specified node in the
-	 *         specified problem.
-	 */
-	public List<Node<S, A>> getSuccessors(Node<S, A> node, Problem<S, A> problem) {
-		List<Node<S, A>> successors = new ArrayList<>();
-
-		for (A action : problem.getActions(node.getState())) {
-			S successorState = problem.getResult(node.getState(), action);
-
-			double stepCost = problem.getStepCosts(node.getState(), action, successorState);
-			successors.add(createNode(successorState, node, action, stepCost));
-		}
-		notifyListeners(node);
-		return successors;
 	}
 
 	///////////////////////////////////////////////////////////////////////

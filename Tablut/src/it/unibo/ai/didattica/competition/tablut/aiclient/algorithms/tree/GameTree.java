@@ -1,12 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree;
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree.Node;
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree.NodeFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  *	Basic implementation of Game Tree for the Monte Carlo Tree Search
@@ -18,12 +12,11 @@ import java.util.Random;
  */
 
 public class GameTree<S, A> {
-	HashMap<Node<S, A>, List<Node<S, A>>> gameTree;
-	HashMap<S, Double> Wi, Ni;
-	NodeFactory<S, A> nodeFactory;
-	Node<S, A> root;
-	
-	
+	private Map<Node<S, A>, List<Node<S, A>>> gameTree;
+	private Map<S, Double> Wi, Ni;
+	private NodeFactory<S, A> nodeFactory;
+	private Node<S, A> root;
+
 	public GameTree() {
 		this.gameTree = new HashMap<>();
 		this.nodeFactory = new NodeFactory<>();
