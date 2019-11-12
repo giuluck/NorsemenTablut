@@ -4,11 +4,12 @@ import io.kotlintest.TestCase
 import io.kotlintest.fail
 import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotlintest.specs.StringSpec
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.*
 import it.unibo.ai.didattica.competition.tablut.domain.*
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rule
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allMoves
 import kotlin.random.Random
 
 class AshtonRulesTest : StringSpec() {
@@ -21,7 +22,7 @@ class AshtonRulesTest : StringSpec() {
     init {
         "each and only valid move must be potentially performed" {
             // brings the state to a random moment by performing 20 moves then checks
-            repeat(20) { game.checkMove(state.clone(), state.allLegalMoves(rules).random(generator)) }
+            repeat(20) { game.checkMove(state, state.allLegalMoves(rules).random(generator)) }
             state.allMoves.filter {
                 try {
                     game.checkMove(state.clone(), it)

@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.board
+package it.unibo.ai.didattica.competition.tablut.aiclient.games.board
 
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import java.lang.IllegalArgumentException
@@ -23,10 +23,10 @@ data class Coord(val x: Int, val y: Int) {
      * The list of city-block coordinates at distance step around this one.
      */
     fun coordsAround(step: Int = 1): List<Coord> = listOf(
-        Coord(x - step, y),
-        Coord(x + step, y),
-        Coord(x, y - step),
-        Coord(x, y + step)
+            Coord(x - step, y),
+            Coord(x + step, y),
+            Coord(x, y - step),
+            Coord(x, y + step)
     )
 
     /**

@@ -1,9 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.allLegalMoves
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.isValidMove
-import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
-import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rules
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.isValidMove
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rule
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rules
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
@@ -13,7 +13,7 @@ import java.lang.IllegalStateException
 /**
  * Implementation of the Ashton version of Tablut using AIMA.
  */
-class AshtonTablut() : TablutGame {
+class AshtonTablut : TablutGame {
 
     override val rules: Set<Rule> = setOf(
         Rules.NO_MOVEMENT,

@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.rules
+package it.unibo.ai.didattica.competition.tablut.aiclient.games.rules
 
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State

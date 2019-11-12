@@ -1,7 +1,7 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.rules
+package it.unibo.ai.didattica.competition.tablut.aiclient.games.rules
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.Coord
-import it.unibo.ai.didattica.competition.tablut.aiclient.board.center
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.Coord
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.center
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
 
 /**
@@ -21,7 +21,7 @@ class Rules private constructor() {
         val CORRECT_TURN = BasicRule { state ->
             state.getPawn(rowFrom, columnFrom).let { pawn ->
                 (state.turn == Turn.WHITE && (pawn == Pawn.WHITE || pawn == Pawn.KING))
-                    || (state.turn == Turn.BLACK && pawn == Pawn.BLACK)
+                        || (state.turn == Turn.BLACK && pawn == Pawn.BLACK)
             }
         }
         /**
@@ -57,8 +57,8 @@ class Rules private constructor() {
         val ASHTON_CITADELS = BasicRule { state ->
             ashtonCitadels.getOrPut(state.board.size) {
                 state.center.coordsAround(state.board.size / 2)
-                    .flatMap { setOf(it, *it.coordsAround().toTypedArray()) }
-                    .filter { it.checkValidity(state) }
+                        .flatMap { setOf(it, *it.coordsAround().toTypedArray()) }
+                        .filter { it.checkValidity(state) }
             }.let { citadels ->
                 val from = Coord(rowFrom, columnFrom)
                 val to = Coord(rowTo, columnTo)

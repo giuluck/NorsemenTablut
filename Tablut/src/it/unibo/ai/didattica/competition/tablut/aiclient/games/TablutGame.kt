@@ -1,6 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.rules.Rule
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rule
 import it.unibo.ai.didattica.competition.tablut.domain.Game
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
