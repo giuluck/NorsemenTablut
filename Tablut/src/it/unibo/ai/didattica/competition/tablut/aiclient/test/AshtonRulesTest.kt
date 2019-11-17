@@ -3,10 +3,11 @@ package it.unibo.ai.didattica.competition.tablut.aiclient.test
 import io.kotlintest.TestCase
 import io.kotlintest.fail
 import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import it.unibo.ai.didattica.competition.tablut.domain.*
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rule
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRule
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allMoves
@@ -17,7 +18,7 @@ class AshtonRulesTest : StringSpec() {
     private lateinit var game: Game
     private lateinit var state: State
     private lateinit var referee: TablutGame
-    private lateinit var rules: Set<Rule>
+    private lateinit var rules: Collection<MovementRule>
 
     init {
         "each and only valid move must be potentially performed" {
@@ -30,12 +31,11 @@ class AshtonRulesTest : StringSpec() {
                 } catch (e: Throwable) {
                     false
                 }
-            }.map {
-                it.toString()
-            } shouldContainExactlyInAnyOrder state.allLegalMoves(rules).map { it.toString() }
+            }.map { it.toString() }
+            .toSet() shouldContainExactlyInAnyOrder state.allLegalMoves(rules).map { it.toString() }
         }
 
-        "simulating a match no error must be encountered" {
+        "simulating a match randomly selecting a legal move no error must be encountered" {
             while (!referee.isTerminal(state)) {
                 state.allLegalMoves(rules).random(generator).also { move ->
                     try {
@@ -43,6 +43,21 @@ class AshtonRulesTest : StringSpec() {
                     } catch (e: Throwable) {
                         state.toConsole()
                         fail("$move is not a valid move.")
+                    }
+                }
+            }
+        }
+
+        "running a game updating the state autonomously no error must be encountered" {
+            var copy: State = state.clone()
+            while (!referee.isTerminal(copy)) {
+                referee.getActions(copy).random(generator).also { move ->
+                    try {
+                        copy = referee.getResult(copy, move)
+                        game.checkMove(state, move)
+                        copy shouldBe state
+                    } catch (e: Throwable) {
+                        fail("Unexpected game states:\n\n$copy\n\nshould have been\n\n$state")
                     }
                 }
             }
@@ -55,6 +70,6 @@ class AshtonRulesTest : StringSpec() {
         game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
         state = StateTablut()
         referee = AshtonTablut()
-        rules = referee.rules
+        rules = referee.movementRules
     }
 }
