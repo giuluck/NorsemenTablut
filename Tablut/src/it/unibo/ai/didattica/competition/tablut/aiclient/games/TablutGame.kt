@@ -1,7 +1,8 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.Rule
-import it.unibo.ai.didattica.competition.tablut.domain.Game
+import aima.core.search.adversarial.Game
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRule
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.UpdateRule
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
 import it.unibo.ai.didattica.competition.tablut.domain.Action
@@ -9,11 +10,16 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action
 /**
  * Interface representing the Tablut game inside AIMA library.
  */
-interface TablutGame : Game, aima.core.search.adversarial.Game<State, Action, TablutPlayer> {
+interface TablutGame : Game<State, Action, TablutPlayer> {
     /**
-     * The set of rules of this game.
+     * The set of movement rules of this game.
      */
-    val rules: Set<Rule>
+    val movementRules: Collection<MovementRule>
+
+    /**
+     * The set of update rules of this game.
+     */
+    val updateRules: Collection<UpdateRule>
 }
 
 /**

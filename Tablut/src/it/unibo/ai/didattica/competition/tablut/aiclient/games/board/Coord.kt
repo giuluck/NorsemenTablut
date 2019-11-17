@@ -8,11 +8,16 @@ import kotlin.math.abs
  * An (x, y) coordinate inside the game board.
  */
 data class Coord(val x: Int, val y: Int) {
+
+    /**
+     * Whether a coordinate is inside the specified bounds.
+     */
+    fun checkValidity(xBound: Int, yBound: Int = xBound): Boolean = x in 0 until xBound && y in 0 until yBound
+
     /**
      * Whether this coordinate is inside the specified state.
      */
-    fun checkValidity(state: State) =
-        x >= 0 && x < state.board.size && y >= 0 && y < state.board.size
+    fun checkValidity(state: State): Boolean = checkValidity(state.board.size)
 
     /**
      * Manhattan distance between two coordinates.
@@ -23,10 +28,10 @@ data class Coord(val x: Int, val y: Int) {
      * The list of city-block coordinates at distance step around this one.
      */
     fun coordsAround(step: Int = 1): List<Coord> = listOf(
-            Coord(x - step, y),
-            Coord(x + step, y),
-            Coord(x, y - step),
-            Coord(x, y + step)
+        Coord(x - step, y),
+        Coord(x + step, y),
+        Coord(x, y - step),
+        Coord(x, y + step)
     )
 
     /**
@@ -36,8 +41,8 @@ data class Coord(val x: Int, val y: Int) {
      * otherwise an exception will be thrown.
      */
     fun coordsBetween(c: Coord): List<Coord> = when {
-        sameRow(c) -> betweenRange(y, c.y).map { Coord(x, it) }
-        sameColumn(c) -> betweenRange(x, c.x).map { Coord(it, y) }
+        sameRow(c) -> between(y, c.y).map { Coord(x, it) }
+        sameColumn(c) -> between(x, c.x).map { Coord(it, y) }
         else -> throw IllegalArgumentException("$c is neither on the same row nor on the same column of $this")
     }
 
@@ -63,7 +68,7 @@ data class Coord(val x: Int, val y: Int) {
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an exception will be thrown.
      */
-    fun coordTo(c: Coord): List<Coord> = listOf(this, *coordsBetween(c).toTypedArray(), c)
+    fun coordsTo(c: Coord): List<Coord> = listOf(this, *coordsBetween(c).toTypedArray(), c)
 
     /**
      * Check if the this coordinate lies on the same row of c.
@@ -77,6 +82,6 @@ data class Coord(val x: Int, val y: Int) {
 
     override fun toString(): String = "${(y + 97).toChar()}${(x + 1)}"
 
-    private fun betweenRange(a: Int, b: Int): IntRange =
-        if (a < b) a + 1 until b else b + 1 until a
+    private fun between(a: Int, b: Int): IntProgression =
+        if (a < b) a + 1 until b else a - 1 downTo b + 1
 }
