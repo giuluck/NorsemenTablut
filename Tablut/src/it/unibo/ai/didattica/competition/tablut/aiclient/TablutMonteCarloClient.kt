@@ -16,5 +16,5 @@ class TablutMonteCarloClient(
     player,
     timeout,
     ipAddress,
-    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 100) // TBD
+    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 1000, true) // TBD
 )
