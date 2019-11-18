@@ -26,9 +26,8 @@ class AshtonTablut : TablutGame {
      * Cells corresponding to the citadels in the game board.
      */
     private val citadels: Set<Coord> = initialState.center
-        .coordsAround(size / 2)
-        .flatMap { setOf(it, *it.coordsAround().toTypedArray()) }
-        .filter { it.checkValidity(initialState) }
+        .coordsAround(size / 2, initialState)
+        .flatMap { setOf(it, *it.coordsAround(1, initialState).toTypedArray()) }
         .toSet()
 
     /**

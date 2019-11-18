@@ -8,16 +8,12 @@ import kotlin.math.abs
  * An (x, y) coordinate inside the game board.
  */
 data class Coord(val x: Int, val y: Int) {
-
-    /**
-     * Whether a coordinate is inside the specified bounds.
-     */
-    fun checkValidity(xBound: Int, yBound: Int = xBound): Boolean = x in 0 until xBound && y in 0 until yBound
-
     /**
      * Whether this coordinate is inside the specified state.
      */
-    fun checkValidity(state: State): Boolean = checkValidity(state.board.size)
+    fun checkValidity(state: State): Boolean = with(state.board) {
+        x in 0 until size && y in 0 until size
+    }
 
     /**
      * Manhattan distance between two coordinates.
@@ -27,12 +23,12 @@ data class Coord(val x: Int, val y: Int) {
     /**
      * The list of city-block coordinates at distance step around this one.
      */
-    fun coordsAround(step: Int = 1): List<Coord> = listOf(
+    fun coordsAround(step: Int = 1, state: State): List<Coord> = listOf(
         Coord(x - step, y),
         Coord(x + step, y),
         Coord(x, y - step),
         Coord(x, y + step)
-    )
+    ).filter { it.checkValidity(state) }
 
     /**
      * Exclusive list of all the coordinates between this and c.

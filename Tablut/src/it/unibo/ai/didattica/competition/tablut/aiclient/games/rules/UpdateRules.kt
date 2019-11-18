@@ -14,9 +14,7 @@ class UpdateRules private constructor() {
          */
         fun simpleCheckerCapture(citadels: Set<Coord>): UpdateRule =
             BasicUpdateRule { movedPawnCoord ->
-                movedPawnCoord.coordsAround(2)
-                    .asSequence()
-                    .filter { it.checkValidity(9) } // TODO: magic numbers refactoring
+                movedPawnCoord.coordsAround(2, this)
                     .filter { aroundCoord ->
                         turn.pawns.contains(pawnAt(aroundCoord))
                                 || citadels.contains(aroundCoord)
@@ -30,7 +28,7 @@ class UpdateRules private constructor() {
                             Pawn.BLACK -> turn == Turn.WHITE
                             Pawn.WHITE -> turn == Turn.BLACK
                             Pawn.KING -> turn == Turn.BLACK && center != middleCoord
-                                    && !center.coordsAround(1).contains(middleCoord)
+                                && !center.coordsAround(1, this).contains(middleCoord)
                             else -> false
                         }
                     }.forEach { opponentCoord ->
@@ -46,13 +44,11 @@ class UpdateRules private constructor() {
         fun specialKingCapture(): UpdateRule =
             BasicUpdateRule { movedPawnCoord ->
                 if (turn == Turn.BLACK) {
-                    movedPawnCoord.coordsAround(1)
-                            .filter { it.checkValidity(9) } // TODO: magic numbers refactoring
-                            .singleOrNull { aroundCoord -> pawnAt(aroundCoord) == Pawn.KING }
-                            ?.coordsAround(1)
-                            ?.filter { it.checkValidity(9) } // TODO: magic numbers refactoring and check if necessary
-                            ?.all { kingNeighborhood -> kingNeighborhood == center || pawnAt(kingNeighborhood) == Pawn.BLACK }
-                            ?.let { kingCaptured -> if (kingCaptured) turn = Turn.BLACKWIN }
+                    movedPawnCoord.coordsAround(1, this)
+                        .singleOrNull { aroundCoord -> pawnAt(aroundCoord) == Pawn.KING }
+                        ?.coordsAround(1, this)
+                        ?.all { kingNeighborhood -> kingNeighborhood == center || pawnAt(kingNeighborhood) == Pawn.BLACK }
+                        ?.let { kingCaptured -> if (kingCaptured) turn = Turn.BLACKWIN }
                 }
             }
 
@@ -76,12 +72,12 @@ class UpdateRules private constructor() {
 
                 override fun update(state: State, action: Action): Unit = with(state) {
                     allCoords.map { state.pawnAt(it) }
-                            .filter { it == Pawn.BLACK || it == Pawn.WHITE }
-                            .takeIf { it.count() != lastCheckersNumber }
-                            ?.let {
-                                if (previousStates.contains(this)) turn = Turn.DRAW
-                                else previousStates.add(this)
-                            } ?: previousStates.clear()
+                        .filter { it == Pawn.BLACK || it == Pawn.WHITE }
+                        .takeIf { it.count() != lastCheckersNumber }
+                        ?.let {
+                            if (previousStates.contains(this)) turn = Turn.DRAW
+                            else previousStates.add(this)
+                        } ?: previousStates.clear()
                 }
             }
     }
