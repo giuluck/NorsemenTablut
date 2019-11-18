@@ -44,8 +44,8 @@ import java.util.concurrent.*;
  */
 
 public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
-	private long executionLimit;
-	final private boolean isTime;
+	final private long executionLimit;
+	private int iterationLimit;
 
 	final private Game<S, A, P> game;
 	final private GameTree<S, A> tree;
@@ -53,13 +53,13 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	/**
 	 *
 	 * @param game the game model
-	 * @param executionLimit the maximum number of iterations or the maximum  execution time in milliseconds
-	 * @param isTime consider <code>executionLimit</code> as time
+	 * @param executionLimit the maximum  execution time in milliseconds
+	 * @param iterationLimit the maximum number of iterations
 	 */
-	public MonteCarloTreeSearch(final Game<S, A, P> game, final long executionLimit, final boolean isTime) {
+	public MonteCarloTreeSearch(final Game<S, A, P> game, final long executionLimit, final int iterationLimit) {
 		this.game = game;
 		this.executionLimit = executionLimit;
-		this.isTime = isTime;
+		this.iterationLimit = iterationLimit;
 		this.tree = new GameTree<>();
 	}
 	
@@ -67,32 +67,26 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	public A makeDecision(final S state) {
 		// tree <-- NODE(state)
 		this.tree.addRoot(state);
+		final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-		if (this.isTime) {
-			final ExecutorService executor = Executors.newSingleThreadExecutor();
-
-			try {
-				final Future<Object> routine = executor.submit(() -> {
+		try {
+			final Future<Object> routine = executor.submit(() -> {
+				while (this.iterationLimit > 0) {
 					this.algorithmCore();
-					//Thread.sleep(1500);
-					return null;
-				});
+					this.iterationLimit--;
+				}
+				return null;
+			});
 
-				routine.get(this.executionLimit, TimeUnit.MILLISECONDS);
-			} catch (final TimeoutException e) {
-				System.err.println("Timeout");
-			} catch (final Exception e) {
-				throw new RuntimeException(e);
-			} finally {
-				executor.shutdown();
-			}
-		} else {
-			while (this.executionLimit != 0) {
-				this.algorithmCore();
-				// repeat the four steps for set number of iterations
-				--this.executionLimit;
-			}
+			routine.get(this.executionLimit, TimeUnit.MILLISECONDS);
+		} catch (final TimeoutException e) {
+			System.err.println("Timeout");
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			executor.shutdown();
 		}
+
 		// return the move in ACTIONS(state) whose node has highest number of playouts
 		return bestAction(this.tree.getRoot());
 	}
@@ -108,7 +102,13 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 		// BACKPROPAGATE(result, child)
 		this.backpropagate(result, child);
 	}
-	
+
+	/*
+	POSSIBLE ENHANCEMENTS:
+	- MCTS-Solver
+	- Node priors
+	- RAVE
+	*/
 	private Node<S, A> select(final GameTree<S, A> gameTree) {
 		Node<S, A> node = gameTree.getRoot();
 		while (!this.game.isTerminal(node.getState()) && this.isNodeFullyExpanded(node)) {
@@ -124,7 +124,15 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 			return this.randomlySelectUnvisitedChild(leaf);
 		}
 	}
-	
+
+	/*
+	POSSIBLE ENHANCEMENTS:
+	- informed rollout policies
+	- adaptive rollout policies
+	- rollout cutoffs
+
+	- consider to use a probability to use heuristics or not and consider the state of the match (pieces, opening/closing)
+	*/
 	private boolean simulate(Node<S, A> node) {
 		while (!this.game.isTerminal(node.getState())) {
 			final Random rand = new Random();
@@ -133,6 +141,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 			final NodeFactory nodeFactory = new NodeFactory();
 			node = nodeFactory.createNode(result);
 		}
+		// TODO: Tie?
 		if (this.game.getUtility(node.getState(), this.game.getPlayer(this.tree.getRoot().getState())) > 0) {
 			return true;
 		} else {

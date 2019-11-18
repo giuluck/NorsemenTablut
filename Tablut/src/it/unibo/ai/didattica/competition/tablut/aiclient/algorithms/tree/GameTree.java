@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  *	Basic implementation of Game Tree for the Monte Carlo Tree Search
@@ -23,7 +24,15 @@ public class GameTree<S, A> {
 		this.Wi = new HashMap<>();
 		this.Ni = new HashMap<>();
 	}
-	
+
+	public Map<S, Double> getWi() {
+		return this.Wi;
+	}
+
+	public Map<S, Double> getNi() {
+		return this.Ni;
+	}
+
 	public void addRoot(final S root) {
 		final Node<S, A> rootNode = this.nodeFactory.createNode(root);
 		this.root = rootNode;
@@ -88,7 +97,8 @@ public class GameTree<S, A> {
 			this.Wi.put(node.getState(), this.Wi.get(node.getState()) + 1);
 		}
 	}
-	
+
+	// TODO UCB1-tuned
 	public Node<S, A> getChildWithMaxUCT(final Node<S, A> node) {
 		List<Node<S, A>> best_children = new ArrayList<>();
 		double max_uct = Double.NEGATIVE_INFINITY;
@@ -117,6 +127,23 @@ public class GameTree<S, A> {
 				best_children = new ArrayList<>();
 				best_children.add(child);
 			} else if (playouts == max_playouts) {
+				best_children.add(child);
+			}
+		}
+		final Random rand = new Random();
+		return best_children.get(rand.nextInt(best_children.size()));
+	}
+
+	public Node<S, A> getChildWithMaxEvaluatedFunction(final Node<S, A> node, BiFunction<Node<S, A>, GameTree, Double> evaluationFunction) {
+		List<Node<S, A>> best_children = new ArrayList<>();
+		double max_value = Double.NEGATIVE_INFINITY;
+		for (final Node<S, A> child : successors(node)) {
+			double value = evaluationFunction.apply(child, this);
+			if (value > max_value) {
+				max_value = value;
+				best_children = new ArrayList<>();
+				best_children.add(child);
+			} else if (value == max_value) {
 				best_children.add(child);
 			}
 		}
