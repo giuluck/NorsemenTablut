@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.tree;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  *	Basic implementation of Game Tree for the Monte Carlo Tree Search
@@ -12,80 +13,97 @@ import java.util.*;
  */
 
 public class GameTree<S, A> {
-	private Map<Node<S, A>, List<Node<S, A>>> gameTree;
-	private Map<S, Double> Wi, Ni;
-	private NodeFactory<S, A> nodeFactory;
+	final private Map<Node<S, A>, List<Node<S, A>>> gameTree;
+	final private Map<S, Double> Wi, Ni;
+	final private NodeFactory<S, A> nodeFactory;
 	private Node<S, A> root;
 
 	public GameTree() {
 		this.gameTree = new HashMap<>();
 		this.nodeFactory = new NodeFactory<>();
-		Wi = new HashMap<>();
-		Ni = new HashMap<>();
+		this.Wi = new HashMap<>();
+		this.Ni = new HashMap<>();
 	}
-	
-	public void addRoot(S root) {
-		Node<S, A> rootNode = nodeFactory.createNode(root);
+
+	public Map<S, Double> getWi() {
+		return this.Wi;
+	}
+
+	public Map<S, Double> getNi() {
+		return this.Ni;
+	}
+
+	public void addRoot(final S root) {
+		final Node<S, A> rootNode = this.nodeFactory.createNode(root);
 		this.root = rootNode;
-		gameTree.put(rootNode, new ArrayList<>());
-		Wi.put(root, 0.0);
-		Ni.put(root, 0.0);
+		this.gameTree.put(rootNode, new ArrayList<>());
+		this.Wi.put(root, 0.0);
+		this.Ni.put(root, 0.0);
 	}
 	
 	public Node<S, A> getRoot() {
-		return root;
+		return this.root;
 	}
 	
-	public List<S> getVisitedChildren(Node<S, A> parent) {
-		List<S> visitedChildren = new ArrayList<>();
-		if (gameTree.containsKey(parent)) {
-			for (Node<S, A> child : gameTree.get(parent)) {
+	public List<S> getVisitedChildren(final Node<S, A> parent) {
+		final List<S> visitedChildren = new ArrayList<>();
+		if (this.gameTree.containsKey(parent)) {
+			for (final Node<S, A> child : this.gameTree.get(parent)) {
 				visitedChildren.add(child.getState());
 			}
 		}
 		return visitedChildren;
 	}
 	
-	public Node<S, A> addChild(Node<S, A> parent, S child) {
-		Node<S, A> newChild = nodeFactory.createNode(child);
-		List<Node<S, A>> children = successors(parent);
+	public Node<S, A> addChild(final Node<S, A> parent, S child) {
+		final Node<S, A> newChild = this.nodeFactory.createNode(child);
+		final List<Node<S, A>> children = successors(parent);
 		children.add(newChild);
-		gameTree.put(parent, children);
-		Wi.put(child, 0.0);
-		Ni.put(child, 0.0);
+		this.gameTree.put(parent, children);
+		this.Wi.put(child, 0.0);
+		this.Ni.put(child, 0.0);
 		return newChild;
 	}
 	
-	public Node<S, A> getParent(Node<S, A> node) {
+	public Node<S, A> getParent(final Node<S, A> node) {
 		Node<S, A> parent = null;
-		for (Node<S, A> key : gameTree.keySet()) {
-			List<Node<S, A>> children = successors(key);
+		for (final Node<S, A> key : this.gameTree.keySet()) {
+			final List<Node<S, A>> children = successors(key);
 			for (Node<S, A> child : children) {
 				if (child.getState() == node.getState()) {
 					parent = key;
 					break;
 				}
 			}
-			if (parent != null) break;
+			if (parent != null) {
+				break;
+			}
 		}
 		return parent;
 	}
 	
-	public List<Node<S, A>> successors(Node<S, A> node) {
-		if (gameTree.containsKey(node)) return gameTree.get(node);
-		else return new ArrayList<>();
+	public List<Node<S, A>> successors(final Node<S, A> node) {
+		if (this.gameTree.containsKey(node)) {
+			return this.gameTree.get(node);
+		}
+		else {
+			return new ArrayList<>();
+		}
 	}
 	
-	public void updateStats(boolean result, Node<S, A> node) {
-		Ni.put(node.getState(), Ni.get(node.getState()) + 1);
-		if (result) Wi.put(node.getState(), Wi.get(node.getState()) + 1);
+	public void updateStats(final boolean result, final Node<S, A> node) {
+		this.Ni.put(node.getState(), this.Ni.get(node.getState()) + 1);
+		if (result) {
+			this.Wi.put(node.getState(), this.Wi.get(node.getState()) + 1);
+		}
 	}
-	
-	public Node<S, A> getChildWithMaxUCT(Node<S, A> node) {
+
+	// TODO UCB1-tuned
+	public Node<S, A> getChildWithMaxUCT(final Node<S, A> node) {
 		List<Node<S, A>> best_children = new ArrayList<>();
 		double max_uct = Double.NEGATIVE_INFINITY;
-		for (Node<S, A> child : successors(node)) {
-			double uct = ((Wi.get(child.getState())) / (Ni.get(child.getState()))) + Math.sqrt((2 / Ni.get(child.getState())) * (Math.log(Ni.get(node.getState()))));
+		for (final Node<S, A> child : successors(node)) {
+			double uct = ((this.Wi.get(child.getState())) / (this.Ni.get(child.getState()))) + Math.sqrt((2 / this.Ni.get(child.getState())) * (Math.log(this.Ni.get(node.getState()))));
 			if (uct > max_uct) {
 				max_uct = uct;
 				best_children = new ArrayList<>();
@@ -94,16 +112,16 @@ public class GameTree<S, A> {
 				best_children.add(child);
 			}
 		}
-		
-		Random rand = new Random();
+
+		final Random rand = new Random();
 		return best_children.get(rand.nextInt(best_children.size()));
 	}
 	
-	public Node<S, A> getChildWithMaxPlayouts(Node<S, A> node) {
+	public Node<S, A> getChildWithMaxPlayouts(final Node<S, A> node) {
 		List<Node<S, A>> best_children = new ArrayList<>();
 		double max_playouts = Double.NEGATIVE_INFINITY;
-		for (Node<S, A> child : successors(node)) {
-			double playouts = (Ni.get(child.getState()));
+		for (final Node<S, A> child : successors(node)) {
+			double playouts = (this.Ni.get(child.getState()));
 			if (playouts > max_playouts) {
 				max_playouts = playouts;
 				best_children = new ArrayList<>();
@@ -112,7 +130,24 @@ public class GameTree<S, A> {
 				best_children.add(child);
 			}
 		}
-		Random rand = new Random();
+		final Random rand = new Random();
+		return best_children.get(rand.nextInt(best_children.size()));
+	}
+
+	public Node<S, A> getChildWithMaxEvaluatedFunction(final Node<S, A> node, BiFunction<Node<S, A>, GameTree, Double> evaluationFunction) {
+		List<Node<S, A>> best_children = new ArrayList<>();
+		double max_value = Double.NEGATIVE_INFINITY;
+		for (final Node<S, A> child : successors(node)) {
+			double value = evaluationFunction.apply(child, this);
+			if (value > max_value) {
+				max_value = value;
+				best_children = new ArrayList<>();
+				best_children.add(child);
+			} else if (value == max_value) {
+				best_children.add(child);
+			}
+		}
+		final Random rand = new Random();
 		return best_children.get(rand.nextInt(best_children.size()));
 	}
 }

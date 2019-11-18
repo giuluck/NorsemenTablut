@@ -16,7 +16,7 @@ class TablutMonteCarloClient @JvmOverloads constructor(
     player,
     timeout,
     ipAddress,
-    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 5) // TBD
+    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 5, 100) // TBD
 )
 
 fun main() {
