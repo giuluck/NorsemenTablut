@@ -9,7 +9,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.*
  * A Tablut intelligent client using a variant of iterative deepening Minimax search with alpha-beta pruning and
  * action ordering as the resolution strategy.
  */
-class TablutIterativeDeepeningClient(
+class TablutIterativeDeepeningClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,
     ipAddress: String = "localhost"
@@ -17,7 +17,7 @@ class TablutIterativeDeepeningClient(
     player,
     timeout,
     ipAddress,
-    object : IterativeDeepeningAlphaBetaSearch<State, Action, TablutPlayer> (AshtonTablut(), -1.0, 1.0, timeout) {
+    object : IterativeDeepeningAlphaBetaSearch<State, Action, TablutPlayer> (AshtonTablut(), -1.0, 1.0, 5) {
     // TODO
     override fun isSignificantlyBetter(newUtility: Double, utility: Double): Boolean =
             super.isSignificantlyBetter(newUtility, utility)
@@ -31,3 +31,7 @@ class TablutIterativeDeepeningClient(
             super.eval(state, player)
     }
 )
+
+fun main() {
+    TablutIterativeDeepeningClient("white").run()
+}

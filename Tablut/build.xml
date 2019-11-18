@@ -11,7 +11,7 @@
         <mkdir dir="build"/>
         <javac encoding="iso-8859-1" srcdir="src" 
             destdir="build"
-            classpath="lib/gson-2.2.2.jar" />
+            classpath="lib/gson-2.2.2.jar:lib/aima-core-3.0.0.jar" />
         <copy todir="build">
             <fileset dir="src" excludes="*.java"/>
         </copy>
@@ -25,6 +25,7 @@
             </classpath>
         </java>
     </target>
+
     <target name="randomwhite">
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomWhiteClient" fork="true">
             <classpath>
@@ -33,6 +34,7 @@
             </classpath>
         </java>
     </target>
+
     <target name="randomblack">
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutRandomBlackClient" fork="true">
             <classpath>
@@ -59,7 +61,6 @@
             </classpath>
         </java>
     </target>
-	
 
     <target name="tester">
         <java classname="it.unibo.ai.didattica.competition.tablut.tester.Tester" fork="true">
@@ -69,7 +70,5 @@
             </classpath>
         </java>
     </target>
-
-
 
 </project>

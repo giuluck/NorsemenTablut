@@ -38,6 +38,9 @@ val Turn.pawns: Set<Pawn>
         else -> setOf()
     }
 
+/**
+ * The player who plays against this one.
+ */
 val Turn.opponent: Turn
     get() = when (this) {
         Turn.WHITE -> Turn.BLACK
@@ -82,6 +85,7 @@ fun State.playerCoords(player: Turn): Set<Coord> =
 fun State.legalMovesForCoord(coord: Coord, rules: Collection<MovementRule>): Set<Action> =
     Direction.values()
         .flatMap { coordsInDirection(coord, it) }
+        .asSequence()
         .map { Action(coord.toString(), it.toString(), turn) }
         .filter { isValidMove(it, rules) }
         .toSet()
