@@ -45,10 +45,11 @@ import java.util.concurrent.*;
 
 public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	final private long executionLimit;
-	private int iterationLimit;
+	final private int iterationLimit;
+	private int currentIteration;
 
 	final private Game<S, A, P> game;
-	final private GameTree<S, A> tree;
+	private GameTree<S, A> tree;
 
 	/**
 	 *
@@ -60,20 +61,25 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 		this.game = game;
 		this.executionLimit = executionLimit;
 		this.iterationLimit = iterationLimit;
+		this.currentIteration = 0;
 		this.tree = new GameTree<>();
 	}
 	
 	@Override
 	public A makeDecision(final S state) {
+		// TODO: May exist a better way to reinitialize MCTS
+		this.tree = new GameTree<>();
+		this.currentIteration = 0;
+
 		// tree <-- NODE(state)
 		this.tree.addRoot(state);
 		final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		try {
 			final Future<Object> routine = executor.submit(() -> {
-				while (this.iterationLimit > 0) {
+				while (this.currentIteration < this.iterationLimit) {
 					this.algorithmCore();
-					this.iterationLimit--;
+					this.currentIteration++;
 				}
 				return null;
 			});
@@ -85,6 +91,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 			throw new RuntimeException(e);
 		} finally {
 			executor.shutdown();
+			System.out.println("Iterations made: " + this.currentIteration);
 		}
 
 		// return the move in ACTIONS(state) whose node has highest number of playouts
@@ -157,6 +164,8 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	}
 	
 	private A bestAction(final Node<S, A> root) {
+		// TODO: To tune, originally is MaxPlayouts
+		// final Node<S, A> bestChild = tree.getChildWithMaxUCT(root);
 		final Node<S, A> bestChild = tree.getChildWithMaxPlayouts(root);
 		for (final A a : this.game.getActions(root.getState())) {
 			S result = this.game.getResult(root.getState(), a);
