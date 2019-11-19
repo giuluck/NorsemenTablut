@@ -17,42 +17,39 @@ import kotlin.math.abs
  * Implementation of the Ashton version of Tablut using AIMA.
  */
 class AshtonTablut : TablutGame {
+    companion object {
+        fun citadels(state: State): Set<Coord> = state.center
+            .coordsAround(state.size / 2, state)
+            .flatMap { setOf(it, *it.coordsAround(1, state).toTypedArray()) }
+            .toSet()
+
+        fun winningCells(state: State): Set<Coord> = state.allCoords
+            .filter { (i, j) -> i == 0 || i == state.size - 1 || j == 0 || j == state.size - 1 }
+            .filter { (i, j) -> abs(i - j) != 0 && abs(i - j) != state.size - 1 }
+            .filter { coord -> !citadels(state).contains(coord) }
+            .toSet()
+
+        fun movementRules(state: State): Set<MovementRule> = setOf(
+            MovementRules.noMovement(),
+            MovementRules.outOfBoard(),
+            MovementRules.diagonalMovement(),
+            MovementRules.pawnClimbing(),
+            MovementRules.citadelClimbing(citadels(state))
+        )
+
+        fun updateRules(state: State): Set<UpdateRule> = setOf(
+            UpdateRules.simpleCheckerCapture(citadels(state)),
+            UpdateRules.specialKingCapture(),
+            UpdateRules.kingEscape(winningCells(state)),
+            UpdateRules.noDuplicates()
+        )
+    }
 
     private val initialState: State = StateTablut()
 
-    private val size: Int = initialState.board.size
+    private val movementRules: Set<MovementRule> = movementRules(initialState)
 
-    /**
-     * Cells corresponding to the citadels in the game board.
-     */
-    private val citadels: Set<Coord> = initialState.center
-        .coordsAround(size / 2, initialState)
-        .flatMap { setOf(it, *it.coordsAround(1, initialState).toTypedArray()) }
-        .toSet()
-
-    /**
-     * Cells of the board the king must reach in order to win the game.
-     */
-    private val winningCells: Set<Coord> = initialState.allCoords
-        .filter { (i, j) -> i == 0 || i == size - 1 || j == 0 || j == size - 1 }
-        .filter { (i, j) -> abs(i - j) != 0 && abs(i - j) != size - 1 }
-        .filter { coord -> !citadels.contains(coord) }
-        .toSet()
-
-    override val movementRules: List<MovementRule> = listOf(
-        MovementRules.noMovement(),
-        MovementRules.outOfBoard(),
-        MovementRules.diagonalMovement(),
-        MovementRules.pawnClimbing(),
-        MovementRules.citadelClimbing(citadels)
-    )
-
-    override val updateRules: List<UpdateRule> = listOf(
-        UpdateRules.simpleCheckerCapture(citadels),
-        UpdateRules.specialKingCapture(),
-        UpdateRules.kingEscape(winningCells),
-        UpdateRules.noDuplicates()
-    )
+    private val updateRules: Set<UpdateRule> = updateRules(initialState)
 
     override fun getInitialState(): State = initialState
 

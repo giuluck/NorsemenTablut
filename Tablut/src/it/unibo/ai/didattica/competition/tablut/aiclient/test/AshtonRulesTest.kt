@@ -18,7 +18,7 @@ class AshtonRulesTest : StringSpec() {
     private lateinit var game: Game
     private lateinit var state: State
     private lateinit var referee: TablutGame
-    private lateinit var rules: Collection<MovementRule>
+    private lateinit var rules: Set<MovementRule>
 
     init {
         "each and only valid move must be potentially performed" {
@@ -70,6 +70,6 @@ class AshtonRulesTest : StringSpec() {
         game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
         state = StateTablut()
         referee = AshtonTablut()
-        rules = referee.movementRules
+        rules = AshtonTablut.movementRules(state)
     }
 }

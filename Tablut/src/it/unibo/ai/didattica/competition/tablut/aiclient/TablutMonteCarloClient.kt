@@ -8,7 +8,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.*
 /**
  * A Tablut intelligent client using Monte Carlo tree search as the resolution strategy.
  */
-class TablutMonteCarloClient @JvmOverloads constructor(
+open class TablutMonteCarloClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,
     ipAddress: String = "localhost"
@@ -18,7 +18,3 @@ class TablutMonteCarloClient @JvmOverloads constructor(
     ipAddress,
     MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 20 * 1000, 250) // TBD
 )
-
-fun main() {
-    TablutMonteCarloClient("white").run()
-}

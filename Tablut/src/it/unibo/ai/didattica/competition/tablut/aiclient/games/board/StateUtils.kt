@@ -7,6 +7,12 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
 
 /**
+ * Size of the board.
+ */
+val State.size: Int
+    get() = board.size
+
+/**
  * Center cell of the game board.
  */
 val State.center: Coord
@@ -62,7 +68,7 @@ fun State.pawnAt(c: Coord): Pawn = board[c.x][c.y]
 /**
  * Get all legal moves for the player who has to move.
  */
-fun State.allLegalMoves(rules: Collection<MovementRule>): Set<Action> =
+fun State.allLegalMoves(rules: Set<MovementRule>): Set<Action> =
     playerCoords(turn)
         .asSequence()
         .flatMap { legalMovesForCoord(it, rules).asSequence() }
@@ -82,7 +88,7 @@ fun State.playerCoords(player: Turn): Set<Coord> =
 /**
  * Get all legal moves for the passed position in the current board state.
  */
-fun State.legalMovesForCoord(coord: Coord, rules: Collection<MovementRule>): Set<Action> =
+fun State.legalMovesForCoord(coord: Coord, rules: Set<MovementRule>): Set<Action> =
     Direction.values()
         .flatMap { coordsInDirection(coord, it) }
         .asSequence()
@@ -104,5 +110,5 @@ fun State.coordsInDirection(coord: Coord, dir: Direction): List<Coord> = when (d
 /**
  * Check if the action is valid or not considering the game rules and the current game state.
  */
-fun State.isValidMove(action: Action, rules: Collection<MovementRule>): Boolean =
+fun State.isValidMove(action: Action, rules: Set<MovementRule>): Boolean =
     rules.all { it.check(this, action) }
