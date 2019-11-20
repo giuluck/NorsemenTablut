@@ -101,6 +101,10 @@ public class Server implements Runnable {
 		this.theGui.update(state);
 	}
 
+	public State getCurrentState() {
+		return state;
+	}
+
 	/**
 	 * Server initialiazer.
 	 * 
@@ -132,15 +136,15 @@ public class Server implements Runnable {
 				try {
 					time = Integer.parseInt(args[i]);
 					if (time < 1) {
-						System.out.println("Time format not allowed!");
-						System.out.println(args[i]);
-						System.out.println(usage);
+						//System.out.println("Time format not allowed!");
+						//System.out.println(args[i]);
+						//System.out.println(usage);
 						System.exit(1);
 					}
 				} catch (Exception e) {
-					System.out.println("The time format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("The time format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 			}
@@ -150,9 +154,9 @@ public class Server implements Runnable {
 				try {
 					moveCache = Integer.parseInt(args[i]);
 				} catch (Exception e) {
-					System.out.println("Number format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("Number format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 			}
@@ -162,15 +166,15 @@ public class Server implements Runnable {
 				try {
 					errors = Integer.parseInt(args[i]);
 					if (errors < 0) {
-						System.out.println("Error format not allowed!");
-						System.out.println(args[i]);
-						System.out.println(usage);
+						//System.out.println("Error format not allowed!");
+						//System.out.println(args[i]);
+						//System.out.println(usage);
 						System.exit(1);
 					}
 				} catch (Exception e) {
-					System.out.println("The error format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("The error format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 
@@ -180,15 +184,15 @@ public class Server implements Runnable {
 				try {
 					repeated = Integer.parseInt(args[i]);
 					if (repeated < 0) {
-						System.out.println("RepeatedStates format not allowed!");
-						System.out.println(args[i]);
-						System.out.println(usage);
+						//System.out.println("RepeatedStates format not allowed!");
+						//System.out.println(args[i]);
+						//System.out.println(usage);
 						System.exit(1);
 					}
 				} catch (Exception e) {
-					System.out.println("The RepeatedStates format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("The RepeatedStates format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 
@@ -198,15 +202,15 @@ public class Server implements Runnable {
 				try {
 					gameChosen = Integer.parseInt(args[i]);
 					if (gameChosen < 0 || gameChosen > 4) {
-						System.out.println("Game format not allowed!");
-						System.out.println(args[i]);
-						System.out.println(usage);
+						//System.out.println("Game format not allowed!");
+						//System.out.println(args[i]);
+						//System.out.println(usage);
 						System.exit(1);
 					}
 				} catch (Exception e) {
-					System.out.println("The game format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("The game format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 			}
@@ -219,9 +223,9 @@ public class Server implements Runnable {
 						enableGui = false;
 					}
 				} catch (Exception e) {
-					System.out.println("The enableGUI format is not correct!");
-					System.out.println(args[i]);
-					System.out.println(usage);
+					//System.out.println("The enableGUI format is not correct!");
+					//System.out.println(args[i]);
+					//System.out.println(usage);
 					System.exit(1);
 				}
 			}
@@ -280,7 +284,7 @@ public class Server implements Runnable {
 		Logger loggSys = Logger.getLogger("SysLog");
 		try {
 			new File(logs_folder).mkdirs();
-			System.out.println(sysLogName);
+			//System.out.println(sysLogName);
 			File systemLog = new File(sysLogName);
 			if (!systemLog.exists()) {
 				systemLog.createNewFile();
@@ -310,7 +314,7 @@ public class Server implements Runnable {
 			loggSys.fine("Partita di Tablut");
 			break;
 		default:
-			System.out.println("Error in game selection");
+			//System.out.println("Error in game selection");
 			System.exit(4);
 		}
 
@@ -374,7 +378,7 @@ public class Server implements Runnable {
 
 			// timeout for name declaration
 			if (t.isAlive()) {
-				System.out.println("Timeout!!!!");
+				//System.out.println("Timeout!!!!");
 				loggSys.warning("Chiusura sistema per timeout");
 				System.exit(0);
 			}
@@ -388,7 +392,7 @@ public class Server implements Runnable {
 					temp += c;
 			}
 			whiteName = temp;
-			System.out.println("White player name:\t" + whiteName);
+			//System.out.println("White player name:\t" + whiteName);
 			loggSys.fine("White player name:\t" + whiteName);
 
 			black = this.socketBlack.accept();
@@ -413,7 +417,7 @@ public class Server implements Runnable {
 			}
 			// timeout for name declaration
 			if (t.isAlive()) {
-				System.out.println("Timeout!!!!");
+				//System.out.println("Timeout!!!!");
 				loggSys.warning("Chiusura sistema per timeout");
 				System.exit(0);
 			}
@@ -426,12 +430,12 @@ public class Server implements Runnable {
 				if (Character.isAlphabetic(c) || Character.isDigit(c))
 					temp += c;
 			}
-			System.out.println("Black player name:\t" + blackName);
+			//System.out.println("Black player name:\t" + blackName);
 			loggSys.fine("Black player name:\t" + blackName);
 			blackName = temp;
 
 		} catch (IOException e) {
-			System.out.println("Socket error....");
+			//System.out.println("Socket error....");
 			loggSys.warning("Errore connessioni");
 			loggSys.warning("Chiusura sistema");
 			System.exit(1);
@@ -456,13 +460,13 @@ public class Server implements Runnable {
 			this.game = new GameAshtonTablut(state, repeated, this.cacheSize, "logs", whiteName, blackName);
 			break;
 		default:
-			System.out.println("Error in game selection");
+			//System.out.println("Error in game selection");
 			System.exit(4);
 		}
 		if (this.enableGui) {
 			this.initializeGUI(state);
 		}
-		System.out.println("Clients connected..");
+		//System.out.println("Clients connected..");
 
 		// SEND INITIAL STATE
 
@@ -505,8 +509,8 @@ public class Server implements Runnable {
 			}
 			// loss for timeout
 			if (t.isAlive()) {
-				System.out.println("Timeout!!!!");
-				System.out.println("Player " + state.getTurn().toString() + " has lost!");
+				//System.out.println("Timeout!!!!");
+				//System.out.println("Player " + state.getTurn().toString() + " has lost!");
 				loggSys.warning("Timeout! Player " + state.getTurn() + " lose!");
 				loggSys.warning("Chiusura sistema per timeout");
 				System.exit(0);
@@ -516,7 +520,7 @@ public class Server implements Runnable {
 			// translate the string into an action object
 			move = this.gson.fromJson(theGson, Action.class);
 			loggSys.fine("Move received.\t" + move.toString());
-			System.out.println("Suggested move: " + move.toString());
+			//System.out.println("Suggested move: " + move.toString());
 
 			try {
 				// aggiorna tutto e determina anche eventuali fine partita
@@ -527,23 +531,23 @@ public class Server implements Runnable {
 					this.blackErrors++;
 
 					if (this.blackErrors > errors) {
-						System.out.println("TOO MANY ERRORS FOR BLACK PLAYER; PLAYER WHITE WIN!");
+						//System.out.println("TOO MANY ERRORS FOR BLACK PLAYER; PLAYER WHITE WIN!");
 						e.printStackTrace();
 						loggSys.warning("Chiusura sistema per troppi errori giocatore nero");
 						System.exit(1);
 					} else {
-						System.out.println("Error for black player...");
+						//System.out.println("Error for black player...");
 					}
 				}
 				if (state.getTurn().equalsTurn("W")) {
 					this.whiteErrors++;
 					if (this.whiteErrors > errors) {
-						System.out.println("TOO MANY ERRORS FOR WHITE PLAYER; PLAYER BLACK WIN!");
+						//System.out.println("TOO MANY ERRORS FOR WHITE PLAYER; PLAYER BLACK WIN!");
 						e.printStackTrace();
 						loggSys.warning("Chiusura sistema per troppi errori giocatore bianco");
 						System.exit(1);
 					} else {
-						System.out.println("Error for white player...");
+						//System.out.println("Error for white player...");
 					}
 				}
 			}
@@ -557,7 +561,7 @@ public class Server implements Runnable {
 			Date ti = new Date();
 			long hoursoccurred = (ti.getTime() - starttime.getTime()) / 60 / 60 / 1000;
 			if (hoursoccurred > hourlimit) {
-				System.out.println("TIMEOUT! END OF THE GAME...");
+				//System.out.println("TIMEOUT! END OF THE GAME...");
 				loggSys.warning("Chiusura programma per timeout di " + hourlimit + " ore");
 				state.setTurn(Turn.DRAW);
 			}
@@ -586,18 +590,18 @@ public class Server implements Runnable {
 				tin = Turnblack;
 				break;
 			case BLACKWIN:
-				System.out.println("END OF THE GAME");
-				System.out.println("RESULT: PLAYER BLACK WIN");
+				//System.out.println("END OF THE GAME");
+				//System.out.println("RESULT: PLAYER BLACK WIN");
 				endgame = true;
 				break;
 			case WHITEWIN:
-				System.out.println("END OF THE GAME");
-				System.out.println("RESULT: PLAYER WHITE WIN");
+				//System.out.println("END OF THE GAME");
+				//System.out.println("RESULT: PLAYER WHITE WIN");
 				endgame = true;
 				break;
 			case DRAW:
-				System.out.println("END OF THE GAME");
-				System.out.println("RESULT: DRAW");
+				//System.out.println("END OF THE GAME");
+				//System.out.println("RESULT: DRAW");
 				endgame = true;
 				break;
 			default:

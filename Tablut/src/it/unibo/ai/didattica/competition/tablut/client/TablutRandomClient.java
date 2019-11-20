@@ -41,20 +41,20 @@ public class TablutRandomClient extends TablutClient {
 		String name = "random";
 		// TODO: change the behavior?
 		if (args.length < 1) {
-			System.out.println("You must specify which player you are (WHITE or BLACK)");
+			//System.out.println("You must specify which player you are (WHITE or BLACK)");
 			System.exit(-1);
 		} else {
-			System.out.println(args[0]);
+			//System.out.println(args[0]);
 			role = (args[0]);
 		}
 		if (args.length == 2) {
-			System.out.println(args[1]);
+			//System.out.println(args[1]);
 			gametype = Integer.parseInt(args[1]);
 		}
 		if (args.length == 3) {
 			name = args[2];
 		}
-		System.out.println("Selected client: " + args[0]);
+		//System.out.println("Selected client: " + args[0]);
 
 		TablutRandomClient client = new TablutRandomClient(role, name, gametype);
 		client.run();
@@ -89,17 +89,17 @@ public class TablutRandomClient extends TablutClient {
 				state = new StateTablut();
 				state.setTurn(State.Turn.WHITE);
 				rules = new GameAshtonTablut(99, 0, "garbage", "fake", "fake");
-				System.out.println("Ashton Tablut game");
+				//System.out.println("Ashton Tablut game");
 				break;
 			default:
-				System.out.println("Error in game selection");
+				//System.out.println("Error in game selection");
 				System.exit(4);
 		}
 
 		List<int[]> pawns = new ArrayList<int[]>();
 		List<int[]> empty = new ArrayList<int[]>();
 
-		System.out.println("You are player " + this.getPlayer().toString() + "!");
+		//System.out.println("You are player " + this.getPlayer().toString() + "!");
 
 		while (true) {
 			try {
@@ -109,9 +109,9 @@ public class TablutRandomClient extends TablutClient {
 				e1.printStackTrace();
 				System.exit(1);
 			}
-			System.out.println("Current state:");
+			//System.out.println("Current state:");
 			state = this.getCurrentState();
-			System.out.println(state.toString());
+			//System.out.println(state.toString());
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -176,7 +176,7 @@ public class TablutRandomClient extends TablutClient {
 
 					}
 
-					System.out.println("Mossa scelta: " + a.toString());
+					//System.out.println("Mossa scelta: " + a.toString());
 					try {
 						this.write(a);
 					} catch (ClassNotFoundException | IOException e) {
@@ -189,7 +189,7 @@ public class TablutRandomClient extends TablutClient {
 				}
 				// è il turno dell'avversario
 				else if (state.getTurn().equals(StateTablut.Turn.BLACK)) {
-					System.out.println("Waiting for your opponent move... ");
+					//System.out.println("Waiting for your opponent move... ");
 				}
 				// ho vinto
 				else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
@@ -253,7 +253,7 @@ public class TablutRandomClient extends TablutClient {
 							e1.printStackTrace();
 						}
 
-						System.out.println("try: " + a.toString());
+						//System.out.println("try: " + a.toString());
 						try {
 							rules.checkMove(state, a);
 							found = true;
@@ -263,7 +263,7 @@ public class TablutRandomClient extends TablutClient {
 
 					}
 
-					System.out.println("Mossa scelta: " + a.toString());
+					//System.out.println("Mossa scelta: " + a.toString());
 					try {
 						this.write(a);
 					} catch (ClassNotFoundException | IOException e) {
@@ -276,7 +276,7 @@ public class TablutRandomClient extends TablutClient {
 				}
 
 				else if (state.getTurn().equals(StateTablut.Turn.WHITE)) {
-					System.out.println("Waiting for your opponent move... ");
+					//System.out.println("Waiting for your opponent move... ");
 				} else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
 					System.out.println("YOU LOSE!");
 					System.exit(0);

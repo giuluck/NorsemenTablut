@@ -23,10 +23,10 @@ public class TablutHumanClient extends TablutClient {
 	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 
 		if (args.length == 0) {
-			System.out.println("You must specify which player you are (WHITE or BLACK)!");
+			//System.out.println("You must specify which player you are (WHITE or BLACK)!");
 			System.exit(-1);
 		}
-		System.out.println("Selected this: " + args[0]);
+		//System.out.println("Selected this: " + args[0]);
 
 		TablutClient client = new TablutHumanClient(args[0]);
 
@@ -36,7 +36,7 @@ public class TablutHumanClient extends TablutClient {
 
 	@Override
 	public void run() {
-		System.out.println("You are player " + this.getPlayer().toString() + "!");
+		//System.out.println("You are player " + this.getPlayer().toString() + "!");
 		String actionStringFrom = "";
 		String actionStringTo = "";
 		Action action;
@@ -48,31 +48,31 @@ public class TablutHumanClient extends TablutClient {
 		}
 
 		if (this.getPlayer() == Turn.WHITE) {
-			System.out.println("You are player " + this.getPlayer().toString() + "!");
+			//System.out.println("You are player " + this.getPlayer().toString() + "!");
 			while (true) {
 				try {
 					this.read();
 
-					System.out.println("Current state:");
-					System.out.println(this.getCurrentState().toString());
+					//System.out.println("Current state:");
+					//System.out.println(this.getCurrentState().toString());
 					if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITE)) {
-						System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
-						System.out.println("From: ");
+						//System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
+						//System.out.println("From: ");
 						actionStringFrom = in.readLine();
-						System.out.println("To: ");
+						//System.out.println("To: ");
 						actionStringTo = in.readLine();
 						action = new Action(actionStringFrom, actionStringTo, this.getPlayer());
 						this.write(action);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
-						System.out.println("Waiting for your opponent move... ");
+						//System.out.println("Waiting for your opponent move... ");
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITEWIN)) {
-						System.out.println("YOU WIN!");
+						//System.out.println("YOU WIN!");
 						System.exit(0);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACKWIN)) {
-						System.out.println("YOU LOSE!");
+						//System.out.println("YOU LOSE!");
 						System.exit(0);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.DRAW)) {
-						System.out.println("DRAW!");
+						//System.out.println("DRAW!");
 						System.exit(0);
 					}
 
@@ -82,30 +82,30 @@ public class TablutHumanClient extends TablutClient {
 				}
 			}
 		} else {
-			System.out.println("You are player " + this.getPlayer().toString() + "!");
+			//System.out.println("You are player " + this.getPlayer().toString() + "!");
 			while (true) {
 				try {
 					this.read();
-					System.out.println("Current state:");
-					System.out.println(this.getCurrentState().toString());
+					//System.out.println("Current state:");
+					//System.out.println(this.getCurrentState().toString());
 					if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
-						System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
-						System.out.println("From: ");
+						//System.out.println("Player " + this.getPlayer().toString() + ", do your move: ");
+						//System.out.println("From: ");
 						actionStringFrom = in.readLine();
-						System.out.println("To: ");
+						//System.out.println("To: ");
 						actionStringTo = in.readLine();
 						action = new Action(actionStringFrom, actionStringTo, this.getPlayer());
 						this.write(action);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITE)) {
-						System.out.println("Waiting for your opponent move... ");
+						//System.out.println("Waiting for your opponent move... ");
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.WHITEWIN)) {
-						System.out.println("YOU LOSE!");
+						//System.out.println("YOU LOSE!");
 						System.exit(0);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACKWIN)) {
-						System.out.println("YOU WIN!");
+						//System.out.println("YOU WIN!");
 						System.exit(0);
 					} else if (this.getCurrentState().getTurn().equals(StateTablut.Turn.DRAW)) {
-						System.out.println("DRAW!");
+						//System.out.println("DRAW!");
 						System.exit(0);
 					}
 				} catch (Exception e) {
