@@ -40,7 +40,8 @@ class AshtonTablut : TablutGame {
             UpdateRules.simpleCheckerCapture(citadels(state)),
             UpdateRules.specialKingCapture(),
             UpdateRules.kingEscape(winningCells(state)),
-            UpdateRules.noDuplicateState()
+            UpdateRules.noDuplicateState(),
+            UpdateRules.stalemate(movementRules(state))
         )
     }
 
@@ -73,7 +74,7 @@ class AshtonTablut : TablutGame {
         Turn.WHITEWIN -> if (player == TablutPlayer.WHITE) 1.0 else -1.0
         Turn.BLACKWIN -> if (player == TablutPlayer.BLACK) 1.0 else -1.0
         Turn.DRAW -> 0.0
-        else -> throw IllegalStateException("Not a Terminal State")
+        else -> throw IllegalStateException("Not a terminal state")
     }
 
     override fun isTerminal(state: State): Boolean = state.turn.isTerminal
