@@ -59,7 +59,7 @@ public class Gui {
 			break;
 		default:
 			//System.out.println("Error in GUI init");
-			System.exit(4);
+			//System.exit(4);
 		}
 	}
 	
@@ -90,7 +90,7 @@ public class Gui {
 			break;
 		default:
 			//System.out.println("Error in GUI show");
-			System.exit(4);
+			//System.exit(4);
 		}
 	}
 

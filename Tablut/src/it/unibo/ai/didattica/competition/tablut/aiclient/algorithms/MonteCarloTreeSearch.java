@@ -86,7 +86,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 
 			routine.get(this.executionLimit, TimeUnit.MILLISECONDS);
 		} catch (final TimeoutException e) {
-			System.err.println("Timeout");
+			// System.err.println("Timeout");
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		} finally {

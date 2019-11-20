@@ -139,13 +139,13 @@ public class Server implements Runnable {
 						//System.out.println("Time format not allowed!");
 						//System.out.println(args[i]);
 						//System.out.println(usage);
-						System.exit(1);
+						//System.exit(1);
 					}
 				} catch (Exception e) {
 					//System.out.println("The time format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 			}
 
@@ -157,7 +157,7 @@ public class Server implements Runnable {
 					//System.out.println("Number format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 			}
 
@@ -169,13 +169,13 @@ public class Server implements Runnable {
 						//System.out.println("Error format not allowed!");
 						//System.out.println(args[i]);
 						//System.out.println(usage);
-						System.exit(1);
+						//System.exit(1);
 					}
 				} catch (Exception e) {
 					//System.out.println("The error format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 
 			}
@@ -187,13 +187,13 @@ public class Server implements Runnable {
 						//System.out.println("RepeatedStates format not allowed!");
 						//System.out.println(args[i]);
 						//System.out.println(usage);
-						System.exit(1);
+						//System.exit(1);
 					}
 				} catch (Exception e) {
 					//System.out.println("The RepeatedStates format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 
 			}
@@ -205,13 +205,13 @@ public class Server implements Runnable {
 						//System.out.println("Game format not allowed!");
 						//System.out.println(args[i]);
 						//System.out.println(usage);
-						System.exit(1);
+						//System.exit(1);
 					}
 				} catch (Exception e) {
 					//System.out.println("The game format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 			}
 
@@ -226,7 +226,7 @@ public class Server implements Runnable {
 					//System.out.println("The enableGUI format is not correct!");
 					//System.out.println(args[i]);
 					//System.out.println(usage);
-					System.exit(1);
+					//System.exit(1);
 				}
 			}
 
@@ -297,7 +297,7 @@ public class Server implements Runnable {
 			loggSys.fine("Accensione server");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(1);
+			//System.exit(1);
 		}
 
 		switch (this.gameC) {
@@ -315,7 +315,7 @@ public class Server implements Runnable {
 			break;
 		default:
 			//System.out.println("Error in game selection");
-			System.exit(4);
+			//System.exit(4);
 		}
 
 		Date starttime = new Date();
@@ -380,7 +380,7 @@ public class Server implements Runnable {
 			if (t.isAlive()) {
 				//System.out.println("Timeout!!!!");
 				loggSys.warning("Chiusura sistema per timeout");
-				System.exit(0);
+				//System.exit(0);
 			}
 
 			whiteName = this.gson.fromJson(theGson, String.class);
@@ -419,7 +419,7 @@ public class Server implements Runnable {
 			if (t.isAlive()) {
 				//System.out.println("Timeout!!!!");
 				loggSys.warning("Chiusura sistema per timeout");
-				System.exit(0);
+				//System.exit(0);
 			}
 
 			blackName = this.gson.fromJson(theGson, String.class);
@@ -438,7 +438,7 @@ public class Server implements Runnable {
 			//System.out.println("Socket error....");
 			loggSys.warning("Errore connessioni");
 			loggSys.warning("Chiusura sistema");
-			System.exit(1);
+			//System.exit(1);
 		}
 
 		switch (this.gameC) {
@@ -461,7 +461,7 @@ public class Server implements Runnable {
 			break;
 		default:
 			//System.out.println("Error in game selection");
-			System.exit(4);
+			//System.exit(4);
 		}
 		if (this.enableGui) {
 			this.initializeGUI(state);
@@ -483,7 +483,7 @@ public class Server implements Runnable {
 			e.printStackTrace();
 			loggSys.fine("Errore invio messaggio ai giocatori");
 			loggSys.warning("Chiusura sistema");
-			System.exit(1);
+			//System.exit(1);
 		}
 
 		// GAME CYCLE
@@ -513,7 +513,7 @@ public class Server implements Runnable {
 				//System.out.println("Player " + state.getTurn().toString() + " has lost!");
 				loggSys.warning("Timeout! Player " + state.getTurn() + " lose!");
 				loggSys.warning("Chiusura sistema per timeout");
-				System.exit(0);
+				//System.exit(0);
 			}
 
 			// APPLY MOVE
@@ -534,7 +534,7 @@ public class Server implements Runnable {
 						//System.out.println("TOO MANY ERRORS FOR BLACK PLAYER; PLAYER WHITE WIN!");
 						e.printStackTrace();
 						loggSys.warning("Chiusura sistema per troppi errori giocatore nero");
-						System.exit(1);
+						//System.exit(1);
 					} else {
 						//System.out.println("Error for black player...");
 					}
@@ -545,7 +545,7 @@ public class Server implements Runnable {
 						//System.out.println("TOO MANY ERRORS FOR WHITE PLAYER; PLAYER BLACK WIN!");
 						e.printStackTrace();
 						loggSys.warning("Chiusura sistema per troppi errori giocatore bianco");
-						System.exit(1);
+						//System.exit(1);
 					} else {
 						//System.out.println("Error for white player...");
 					}
@@ -579,7 +579,7 @@ public class Server implements Runnable {
 				e.printStackTrace();
 				loggSys.warning("Errore invio messaggio ai client");
 				loggSys.warning("Chiusura sistema");
-				System.exit(1);
+				//System.exit(1);
 			}
 
 			switch (state.getTurn()) {
@@ -591,27 +591,36 @@ public class Server implements Runnable {
 				break;
 			case BLACKWIN:
 				//System.out.println("END OF THE GAME");
-				System.out.println("RESULT: PLAYER BLACK WIN");
+				//System.out.println("RESULT: PLAYER BLACK WIN");
 				endgame = true;
 				break;
 			case WHITEWIN:
 				//System.out.println("END OF THE GAME");
-				System.out.println("RESULT: PLAYER WHITE WIN");
+				//System.out.println("RESULT: PLAYER WHITE WIN");
 				endgame = true;
 				break;
 			case DRAW:
 				//System.out.println("END OF THE GAME");
-				System.out.println("RESULT: DRAW");
+				//System.out.println("RESULT: DRAW");
 				endgame = true;
 				break;
 			default:
 				loggSys.warning("Chiusura sistema");
-				System.exit(4);
+				//System.exit(4);
 			}
 
 
 		}
-		System.exit(0);
+		//System.exit(0);
+
+		try {
+			socketBlack.close();
+			socketWhite.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 
 }

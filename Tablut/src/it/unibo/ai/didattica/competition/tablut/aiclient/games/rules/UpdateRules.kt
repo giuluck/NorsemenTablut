@@ -80,5 +80,12 @@ class UpdateRules private constructor() {
                         } ?: previousStates.clear()
                 }
             }
+
+        fun stalemate(movementRules: Set<MovementRule>): UpdateRule =
+            BasicUpdateRule {
+                if (allLegalMoves(movementRules).isEmpty()) {
+                    turn = if (turn == Turn.BLACK) Turn.WHITEWIN else Turn.BLACKWIN
+                }
+            }
     }
 }

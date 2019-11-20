@@ -17,7 +17,7 @@ class TablutIterativeDeepeningClient @JvmOverloads constructor(
     player,
     timeout,
     ipAddress,
-    object : IterativeDeepeningAlphaBetaSearch<State, Action, TablutPlayer> (AshtonTablut(), -1.0, 1.0, 5) {
+    object : IterativeDeepeningAlphaBetaSearch<State, Action, TablutPlayer> (AshtonTablut(), -1.0, 1.0, timeout - 5) {
     // TODO
     override fun isSignificantlyBetter(newUtility: Double, utility: Double): Boolean =
             super.isSignificantlyBetter(newUtility, utility)

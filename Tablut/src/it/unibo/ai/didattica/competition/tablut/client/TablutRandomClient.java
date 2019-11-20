@@ -42,7 +42,7 @@ public class TablutRandomClient extends TablutClient {
 		// TODO: change the behavior?
 		if (args.length < 1) {
 			//System.out.println("You must specify which player you are (WHITE or BLACK)");
-			System.exit(-1);
+			//System.exit(-1);
 		} else {
 			//System.out.println(args[0]);
 			role = (args[0]);
@@ -93,7 +93,7 @@ public class TablutRandomClient extends TablutClient {
 				break;
 			default:
 				//System.out.println("Error in game selection");
-				System.exit(4);
+				//System.exit(4);
 		}
 
 		List<int[]> pawns = new ArrayList<int[]>();
@@ -107,7 +107,7 @@ public class TablutRandomClient extends TablutClient {
 			} catch (ClassNotFoundException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-				System.exit(1);
+				//System.exit(1);
 			}
 			//System.out.println("Current state:");
 			state = this.getCurrentState();
@@ -194,17 +194,17 @@ public class TablutRandomClient extends TablutClient {
 				// ho vinto
 				else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
 					//System.out.println("YOU WIN!");
-					System.exit(0);
+					//System.exit(0);
 				}
 				// ho perso
 				else if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
 					//System.out.println("YOU LOSE!");
-					System.exit(0);
+					//System.exit(0);
 				}
 				// pareggio
 				else if (state.getTurn().equals(StateTablut.Turn.DRAW)) {
 					//System.out.println("DRAW!");
-					System.exit(0);
+					//System.exit(0);
 				}
 
 			} else {
@@ -279,13 +279,13 @@ public class TablutRandomClient extends TablutClient {
 					//System.out.println("Waiting for your opponent move... ");
 				} else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
 					//System.out.println("YOU LOSE!");
-					System.exit(0);
+					//System.exit(0);
 				} else if (state.getTurn().equals(StateTablut.Turn.BLACKWIN)) {
 					//System.out.println("YOU WIN!");
-					System.exit(0);
+					//System.exit(0);
 				} else if (state.getTurn().equals(StateTablut.Turn.DRAW)) {
 					//System.out.println("DRAW!");
-					System.exit(0);
+					//System.exit(0);
 				}
 
 			}

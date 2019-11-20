@@ -99,7 +99,7 @@ public class TestGuiFrame extends JFrame{
 			break;	
 		default:
 			//System.out.println("Error in game selection");
-			System.exit(4);
+			//System.exit(4);
 		}
 		
 		theGui=new Gui(game);

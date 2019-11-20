@@ -27,19 +27,19 @@ public class Tester {
 				if (gameChosen < 0 || gameChosen>4) 
 				{
 					//System.out.println("Error format not allowed!");
-					System.exit(1);
+					//System.exit(1);
 				}
 			}
 			catch(Exception e)
 			{
 				//System.out.println("The error format is not correct!");
-				System.exit(1);
+				//System.exit(1);
 			}
 		} 
 		else 
 		{
 			//System.out.println("Usage: java Tester <game>");
-			System.exit(1);
+			//System.exit(1);
 		}
 		
 		//LANCIO IL MOTORE PER UN SERVER

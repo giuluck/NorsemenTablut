@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import aima.core.search.adversarial.AdversarialSearch
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.isTerminal
 import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.Action
@@ -25,11 +26,12 @@ open class TablutIntelligentClient @JvmOverloads constructor(
 
     override fun run() {
         declareName()
-        while(true) {
+        do {
             read()
             if (currentState.turn == player) {
                 write(resolutiveStrategy.makeDecision(currentState))
             }
         }
+        while (!currentState.turn.isTerminal)
     }
 }
