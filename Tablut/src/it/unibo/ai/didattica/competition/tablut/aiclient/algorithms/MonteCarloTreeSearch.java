@@ -91,7 +91,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 			throw new RuntimeException(e);
 		} finally {
 			executor.shutdown();
-			System.out.println("Iterations made: " + this.currentIteration);
+			//System.out.println("Iterations made: " + this.currentIteration);
 		}
 
 		// return the move in ACTIONS(state) whose node has highest number of playouts

@@ -58,7 +58,7 @@ public class Gui {
 			frame.setSize(280, 300);
 			break;
 		default:
-			System.out.println("Error in GUI init");
+			//System.out.println("Error in GUI init");
 			System.exit(4);
 		}
 	}
@@ -89,7 +89,7 @@ public class Gui {
 			frame.setVisible(true);
 			break;
 		default:
-			System.out.println("Error in GUI show");
+			//System.out.println("Error in GUI show");
 			System.exit(4);
 		}
 	}

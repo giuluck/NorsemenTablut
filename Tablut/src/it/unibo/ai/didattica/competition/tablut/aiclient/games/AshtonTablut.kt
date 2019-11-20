@@ -5,12 +5,11 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRul
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRules
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.UpdateRule
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.UpdateRules
-import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 import kotlin.math.abs
 
 /**
@@ -41,7 +40,7 @@ class AshtonTablut : TablutGame {
             UpdateRules.simpleCheckerCapture(citadels(state)),
             UpdateRules.specialKingCapture(),
             UpdateRules.kingEscape(winningCells(state)),
-            UpdateRules.noDuplicates()
+            UpdateRules.noDuplicateState()
         )
     }
 
@@ -53,14 +52,13 @@ class AshtonTablut : TablutGame {
 
     override fun getInitialState(): State = initialState
 
-    override fun getResult(state: State, action: Action): State =
-        state.clone().apply {
-            board[action.rowTo][action.columnTo] = board[action.rowFrom][action.columnFrom]
-            board[action.rowFrom][action.columnFrom] = Pawn.EMPTY
-            center.takeIf { board[it.x][it.y] == Pawn.EMPTY }?.let { board[it.x][it.y] = Pawn.THRONE }
-            updateRules.forEach { it.update(this, action) }
-            turn = turn.opponent
-        }
+    override fun getResult(state: State, action: Action): State = state.clone().apply {
+        board[action.rowTo][action.columnTo] = board[action.rowFrom][action.columnFrom]
+        board[action.rowFrom][action.columnFrom] = Pawn.EMPTY
+        center.takeIf { board[it.x][it.y] == Pawn.EMPTY }?.let { board[it.x][it.y] = Pawn.THRONE }
+        updateRules.forEach { it.update(this, action) }
+        turn = turn.opponent
+    }
 
     override fun getPlayer(state: State): TablutPlayer = TablutPlayer.fromTurn(state.turn)
 
@@ -68,9 +66,7 @@ class AshtonTablut : TablutGame {
 
     override fun getActions(state: State): List<Action> =
         state.allLegalMoves(movementRules).toList().apply {
-            if (isEmpty()) {
-                state.turn = if (state.turn == Turn.WHITE) Turn.BLACKWIN else Turn.WHITEWIN
-            }
+            check(isNotEmpty()) { "There must be at least one possible action" }
         }
 
     override fun getUtility(state: State, player: TablutPlayer): Double = when(state.turn) {

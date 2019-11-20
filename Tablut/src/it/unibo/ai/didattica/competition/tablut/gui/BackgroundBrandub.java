@@ -34,7 +34,7 @@ public class BackgroundBrandub extends Background{
 		}
 		catch(IOException ie)
 		{
-			System.out.println(ie.getMessage());
+			//System.out.println(ie.getMessage());
 		}
 	}
 }

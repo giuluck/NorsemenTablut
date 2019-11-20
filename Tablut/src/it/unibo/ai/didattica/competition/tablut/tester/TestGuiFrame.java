@@ -98,7 +98,7 @@ public class TestGuiFrame extends JFrame{
 			state.setBoard(board3);
 			break;	
 		default:
-			System.out.println("Error in game selection");
+			//System.out.println("Error in game selection");
 			System.exit(4);
 		}
 		

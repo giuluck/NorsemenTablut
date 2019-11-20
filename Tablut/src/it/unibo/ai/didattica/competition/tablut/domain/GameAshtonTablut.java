@@ -284,13 +284,13 @@ public class GameAshtonTablut implements Game {
 		int trovati = 0;
 		for (State s : drawConditions) {
 
-			// System.out.println(s.toString());
+			// //System.out.println(s.toString());
 
 			if (s.equals(state)) {
 				// DEBUG: //
-				// System.out.println("UGUALI:");
-				// System.out.println("STATO VECCHIO:\t" + s.toLinearString());
-				// System.out.println("STATO NUOVO:\t" +
+				// //System.out.println("UGUALI:");
+				// //System.out.println("STATO VECCHIO:\t" + s.toLinearString());
+				// //System.out.println("STATO NUOVO:\t" +
 				// state.toLinearString());
 
 				trovati++;
@@ -301,9 +301,9 @@ public class GameAshtonTablut implements Game {
 				}
 			} else {
 				// DEBUG: //
-				// System.out.println("DIVERSI:");
-				// System.out.println("STATO VECCHIO:\t" + s.toLinearString());
-				// System.out.println("STATO NUOVO:\t" +
+				// //System.out.println("DIVERSI:");
+				// //System.out.println("STATO VECCHIO:\t" + s.toLinearString());
+				// //System.out.println("STATO NUOVO:\t" +
 				// state.toLinearString());
 			}
 		}
@@ -318,7 +318,7 @@ public class GameAshtonTablut implements Game {
 		// this.loggGame.fine("Current draw cache size: " + this.drawConditions.size());
 
 		// this.loggGame.fine("Stato:\n" + state.toString());
-		// System.out.println("Stato:\n" + state.toString());
+		// //System.out.println("Stato:\n" + state.toString());
 
 		return state;
 	}
@@ -492,7 +492,7 @@ public class GameAshtonTablut implements Game {
 		// ho il re sotto
 		if (a.getRowTo() < state.getBoard().length - 2
 				&& state.getPawn(a.getRowTo() + 1, a.getColumnTo()).equalsPawn("K")) {
-			// System.out.println("Ho il re sotto");
+			// //System.out.println("Ho il re sotto");
 			// re sul trono
 			if (state.getBox(a.getRowTo() + 1, a.getColumnTo()).equals("e5")) {
 				if (state.getPawn(5, 4).equalsPawn("B") && state.getPawn(4, 5).equalsPawn("B")

@@ -65,7 +65,7 @@ class UpdateRules private constructor() {
         /**
          * If the same state is reached twice, the game ends with a draw.
          */
-        fun noDuplicates(): UpdateRule =
+        fun noDuplicateState(): UpdateRule =
             object : UpdateRule {
                 private var lastCheckersNumber: Int = Int.MAX_VALUE
                 private val previousStates: MutableSet<State> = mutableSetOf()

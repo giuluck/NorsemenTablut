@@ -78,7 +78,7 @@ public class LogReader {
 						line = new String(line.getBytes(), "UTF-8");
 
 						if (line.contains("Players")) {
-							System.out.println(line);
+							//System.out.println(line);
 							String[] splits = line.split(":");
 							int len = splits.length;
 							line = line.split(":")[len - 1];

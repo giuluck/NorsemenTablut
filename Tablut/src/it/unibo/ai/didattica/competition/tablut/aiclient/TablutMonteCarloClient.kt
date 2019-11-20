@@ -16,5 +16,5 @@ open class TablutMonteCarloClient @JvmOverloads constructor(
     player,
     timeout,
     ipAddress,
-    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 20 * 1000, 250) // TBD
+    MonteCarloTreeSearch<State, Action, TablutPlayer>(AshtonTablut(), 1 * 1000, Int.MAX_VALUE)
 )

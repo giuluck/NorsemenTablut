@@ -26,19 +26,19 @@ public class Tester {
 				gameChosen = Integer.parseInt(args[0]);
 				if (gameChosen < 0 || gameChosen>4) 
 				{
-					System.out.println("Error format not allowed!");
+					//System.out.println("Error format not allowed!");
 					System.exit(1);
 				}
 			}
 			catch(Exception e)
 			{
-				System.out.println("The error format is not correct!");
+				//System.out.println("The error format is not correct!");
 				System.exit(1);
 			}
 		} 
 		else 
 		{
-			System.out.println("Usage: java Tester <game>");
+			//System.out.println("Usage: java Tester <game>");
 			System.exit(1);
 		}
 		

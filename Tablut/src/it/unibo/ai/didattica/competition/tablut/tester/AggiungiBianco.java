@@ -40,7 +40,7 @@ public class AggiungiBianco implements ActionListener {
 			this.theGui.update(state);
 			this.ret.setState(state);
 		} catch (IOException e1) {
-			System.out.println("Wrong format of the position. Write position as \"A1\" where A1 is the cell");
+			//System.out.println("Wrong format of the position. Write position as \"A1\" where A1 is the cell");
 		}
 	}
 

@@ -338,7 +338,7 @@ public class Server implements Runnable {
 		 * Channel to send the state to the black player
 		 */
 		DataOutputStream blackState = null;
-		System.out.println("Waiting for connections...");
+		//System.out.println("Waiting for connections...");
 
 		String whiteName = "WP";
 		String blackName = "BP";
@@ -490,8 +490,8 @@ public class Server implements Runnable {
 		while (!endgame) {
 			// RECEIVE MOVE
 			
-			// System.out.println("State: \n"+state.toString());
-			System.out.println("Waiting for " + state.getTurn() + "...");
+			//System.out.println("State: \n"+state.toString());
+			//System.out.println("Waiting for " + state.getTurn() + "...");
 
 			// create the process that listen the answer
 			t = new Thread(tin);
@@ -591,17 +591,17 @@ public class Server implements Runnable {
 				break;
 			case BLACKWIN:
 				//System.out.println("END OF THE GAME");
-				//System.out.println("RESULT: PLAYER BLACK WIN");
+				System.out.println("RESULT: PLAYER BLACK WIN");
 				endgame = true;
 				break;
 			case WHITEWIN:
 				//System.out.println("END OF THE GAME");
-				//System.out.println("RESULT: PLAYER WHITE WIN");
+				System.out.println("RESULT: PLAYER WHITE WIN");
 				endgame = true;
 				break;
 			case DRAW:
 				//System.out.println("END OF THE GAME");
-				//System.out.println("RESULT: DRAW");
+				System.out.println("RESULT: DRAW");
 				endgame = true;
 				break;
 			default:
