@@ -8,26 +8,30 @@ import it.unibo.ai.didattica.competition.tablut.server.Server
 import kotlinx.coroutines.*
 
 suspend fun main() {
-    println("Montecarlo vs Iterative")
-    benchmark(3) { TablutMonteCarloClient("white") vs TablutIterativeDeepeningClient("black") }.toConsole()
+    val stats = benchmark(3) { TablutTestClient("white") vs TablutTestClient("black") }
     println()
-    println("Iterative vs Montecarlo")
-    benchmark(3) { TablutIterativeDeepeningClient("white") vs TablutMonteCarloClient("black") }.toConsole()
+    println(stats)
 }
 
 private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClient, TablutClient>): Stats = Stats().apply {
-    repeat(matches) { add(singleMatch(players)) }
+    repeat(matches) {
+        singleMatch(players).apply {
+            add(this)
+            println("Match ${it + 1}: $this")
+        }
+    }
 }
 
 private suspend fun singleMatch(players: () -> Pair<TablutClient, TablutClient>): Turn = withContext(Dispatchers.Default) {
-    async { Server(60, -1, 0, 0, 4, false).apply { run() } }.also {
-        players().toList().map {
-            delay(1000)
-            launch { it.run() }
-        }.forEach {
-            it.join()
-        }
-    }.await().currentState.turn
+    Server(60, -1, 0, 0, 4, false).also { server ->
+        mutableListOf<Job>().apply {
+            add(launch { server.run() })
+            players().toList().map {
+                delay(1000)
+                add(launch { it.run() })
+            }
+        }.forEach { it.join() }
+    }.currentState.turn
 }
 
 private infix fun TablutClient.vs(opponent: TablutClient): Pair<TablutClient, TablutClient> = this to opponent
