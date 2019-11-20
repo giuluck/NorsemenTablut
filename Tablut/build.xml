@@ -62,6 +62,26 @@
         </java>
     </target>
 
+    <target name="aiwhite">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutMonteCarloWhiteClient" fork="true">
+            <classpath>
+                <pathelement location="lib/gson-2.2.2.jar"/>
+                <pathelement location="lib/aima-core-3.0.0.jar"/>
+                <pathelement location="build"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="aiblack">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutMonteCarloBlackClient" fork="true">
+            <classpath>
+                <pathelement location="lib/gson-2.2.2.jar"/>
+                <pathelement location="lib/aima-core-3.0.0.jar"/>
+                <pathelement location="build"/>
+            </classpath>
+        </java>
+    </target>
+
     <target name="tester">
         <java classname="it.unibo.ai.didattica.competition.tablut.tester.Tester" fork="true">
             <classpath>
