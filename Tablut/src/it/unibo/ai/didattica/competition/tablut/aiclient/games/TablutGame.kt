@@ -8,4 +8,4 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action
 /**
  * Interface representing the Tablut game inside AIMA library.
  */
-interface TablutGame : Game<State, Action, Turn>
+typealias TablutGame = Game<State, Action, Turn>

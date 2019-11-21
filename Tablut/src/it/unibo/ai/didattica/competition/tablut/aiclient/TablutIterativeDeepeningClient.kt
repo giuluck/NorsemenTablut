@@ -1,10 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch
+import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.Heuristic
+import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.PiecesDifference
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.opponent
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.playerCoords
-import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.domain.*
 
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
@@ -16,7 +15,8 @@ import it.unibo.ai.didattica.competition.tablut.domain.State.*
 class TablutIterativeDeepeningClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,
-    ipAddress: String = "localhost"
+    ipAddress: String = "localhost",
+    heuristic: Heuristic = PiecesDifference()
 ) : TablutIntelligentClient(
     player,
     timeout,
@@ -24,18 +24,7 @@ class TablutIterativeDeepeningClient @JvmOverloads constructor(
     object : IterativeDeepeningAlphaBetaSearch<State, Action, Turn> (AshtonTablut(), -1.0, 1.0, timeout - 5) {
         override fun eval(state: State, player: Turn): Double {
             super.eval(state, player)
-            return if (game.isTerminal(state)) {
-                game.getUtility(state, player);
-            } else {
-                val white = 2 * (state.playerCoords(Turn.WHITE).size - 1)
-                val black = state.playerCoords(Turn.BLACK).size
-                val sign = if (player == Turn.WHITE) 1.0 else -1.0
-                sign * (white - black) / (white + black)
-            }
+            return heuristic.evaluate(game, state, player)
         }
     }
 )
-
-fun main() {
-    TablutIterativeDeepeningClient("white").run()
-}

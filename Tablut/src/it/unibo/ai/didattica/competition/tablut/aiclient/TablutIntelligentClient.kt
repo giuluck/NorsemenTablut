@@ -2,7 +2,6 @@ package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import aima.core.search.adversarial.AdversarialSearch
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.isTerminal
-import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
