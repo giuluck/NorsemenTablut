@@ -48,8 +48,8 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	final private int iterationLimit;
 	private int currentIteration;
 
-	final private Game<S, A, P> game;
-	private GameTree<S, A> tree;
+	final protected Game<S, A, P> game;
+	protected GameTree<S, A> tree;
 
 	/**
 	 *
