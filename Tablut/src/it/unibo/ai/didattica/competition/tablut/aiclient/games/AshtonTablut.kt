@@ -41,7 +41,7 @@ class AshtonTablut : TablutGame {
             UpdateRules.specialKingCapture(),
             UpdateRules.kingEscape(winningCells(state)),
             UpdateRules.noDuplicateState(),
-            UpdateRules.stalemate(movementRules(state))
+            UpdateRules.opponentStalemate(movementRules(state))
         )
     }
 
@@ -58,21 +58,20 @@ class AshtonTablut : TablutGame {
         board[action.rowFrom][action.columnFrom] = Pawn.EMPTY
         center.takeIf { board[it.x][it.y] == Pawn.EMPTY }?.let { board[it.x][it.y] = Pawn.THRONE }
         updateRules.forEach { it.update(this, action) }
-        turn = turn.opponent
     }
 
-    override fun getPlayer(state: State): TablutPlayer = TablutPlayer.fromTurn(state.turn)
+    override fun getPlayer(state: State): Turn = state.turn
 
-    override fun getPlayers(): Array<TablutPlayer> = TablutPlayer.values()
+    override fun getPlayers(): Array<Turn> = Turn.values()
 
     override fun getActions(state: State): List<Action> =
         state.allLegalMoves(movementRules).toList().apply {
             check(isNotEmpty()) { "There must be at least one possible action" }
         }
 
-    override fun getUtility(state: State, player: TablutPlayer): Double = when(state.turn) {
-        Turn.WHITEWIN -> if (player == TablutPlayer.WHITE) 1.0 else -1.0
-        Turn.BLACKWIN -> if (player == TablutPlayer.BLACK) 1.0 else -1.0
+    override fun getUtility(state: State, player: Turn): Double = when(state.turn) {
+        Turn.WHITEWIN -> if (player == Turn.WHITE) 1.0 else -1.0
+        Turn.BLACKWIN -> if (player == Turn.BLACK) 1.0 else -1.0
         Turn.DRAW -> 0.0
         else -> throw IllegalStateException("Not a terminal state")
     }

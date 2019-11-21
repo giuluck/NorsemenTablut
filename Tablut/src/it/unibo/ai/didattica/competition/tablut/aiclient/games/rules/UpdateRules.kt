@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games.rules
 
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.*
+import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
@@ -48,7 +49,9 @@ class UpdateRules private constructor() {
                         .singleOrNull { aroundCoord -> pawnAt(aroundCoord) == Pawn.KING }
                         ?.coordsAround(1, this)
                         ?.all { kingNeighborhood -> kingNeighborhood == center || pawnAt(kingNeighborhood) == Pawn.BLACK }
-                        ?.let { kingCaptured -> if (kingCaptured) turn = Turn.BLACKWIN }
+                        ?.let { kingCaptured ->
+                            if (kingCaptured) turn = Turn.BLACKWIN
+                        }
                 }
             }
 
@@ -81,9 +84,10 @@ class UpdateRules private constructor() {
                 }
             }
 
-        fun stalemate(movementRules: Set<MovementRule>): UpdateRule =
+        fun opponentStalemate(movementRules: Set<MovementRule>): UpdateRule =
             BasicUpdateRule {
-                if (allLegalMoves(movementRules).isEmpty()) {
+                turn = turn.opponent
+                if (!turn.isTerminal && allLegalMoves(movementRules).isEmpty()) {
                     turn = if (turn == Turn.BLACK) Turn.WHITEWIN else Turn.BLACKWIN
                 }
             }

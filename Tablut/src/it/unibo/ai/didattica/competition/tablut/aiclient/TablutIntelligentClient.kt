@@ -31,7 +31,6 @@ open class TablutIntelligentClient @JvmOverloads constructor(
             if (currentState.turn == player) {
                 write(resolutiveStrategy.makeDecision(currentState))
             }
-        }
-        while (!currentState.turn.isTerminal)
+        } while (!currentState.turn.isTerminal)
     }
 }

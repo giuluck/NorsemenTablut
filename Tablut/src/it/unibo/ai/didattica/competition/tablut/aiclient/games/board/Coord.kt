@@ -1,5 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.games.board
 
+import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import java.lang.IllegalArgumentException
 import kotlin.math.abs
@@ -48,7 +49,7 @@ data class Coord(val x: Int, val y: Int) {
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an exception will be thrown.
      */
-    fun coordsUntil(c: Coord): List<Coord> = listOf(this, *coordsBetween(c).toTypedArray())
+    fun coordsUntil(c: Coord): List<Coord> = c.coordsReaching(this).reversed()
 
     /**
      * Right-inclusive list of all the coordinates between this and c.
@@ -56,7 +57,7 @@ data class Coord(val x: Int, val y: Int) {
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an exception will be thrown.
      */
-    fun coordsReaching(c: Coord): List<Coord> = listOf(*coordsBetween(c).toTypedArray(), c)
+    fun coordsReaching(c: Coord): List<Coord> = coordsBetween(c).toMutableList().also { if (this != c) it.add(c) }
 
     /**
      * Inclusive list of all the coordinates between this and c.
@@ -64,7 +65,7 @@ data class Coord(val x: Int, val y: Int) {
      * It is assumed that the two coordinates are either in the same row or in the same column,
      * otherwise an exception will be thrown.
      */
-    fun coordsTo(c: Coord): List<Coord> = listOf(this, *coordsBetween(c).toTypedArray(), c)
+    fun coordsTo(c: Coord): List<Coord> = coordsUntil(c).toMutableList().also { if (this != c) it.add(c) }
 
     /**
      * Check if the this coordinate lies on the same row of c.

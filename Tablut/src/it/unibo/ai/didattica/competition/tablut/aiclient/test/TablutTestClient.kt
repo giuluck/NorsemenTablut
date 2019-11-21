@@ -26,7 +26,6 @@ class TablutTestClient @JvmOverloads constructor(
                     move++
                 }
             }
-        }
-        while (!currentState.turn.isTerminal)
+        } while (!currentState.turn.isTerminal)
     }
 }

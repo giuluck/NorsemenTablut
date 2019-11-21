@@ -51,22 +51,22 @@ class MovementRules private constructor() {
          */
         fun pawnClimbing(): MovementRule =
             BasicMovementRule { state ->
-                Coord(rowTo, columnTo).coordsUntil(Coord(rowFrom, columnFrom)).all { coord ->
-                    state.getPawn(coord.x, coord.y) == Pawn.EMPTY
+                Coord(rowFrom, columnFrom).coordsReaching(Coord(rowTo, columnTo)).all { (x, y) ->
+                    state.getPawn(x, y) == Pawn.EMPTY
                 }
             }
 
         /**
          * A pawn cannot occupy or climb a citadel.
          */
-        fun citadelClimbing(citadels: Set<Coord>) = BasicMovementRule { state ->
+        fun citadelClimbing(citadels: Set<Coord>) = BasicMovementRule {
             citadels.let { citadels ->
                 val from = Coord(rowFrom, columnFrom)
                 val to = Coord(rowTo, columnTo)
                 if (citadels.contains(from))
                     !citadels.contains(to) || from.distanceTo(to) <= 2
                 else
-                    to.coordsUntil(from).none { citadels.contains(it) }
+                    from.coordsReaching(to).none { citadels.contains(it) }
             }
         }
     }
