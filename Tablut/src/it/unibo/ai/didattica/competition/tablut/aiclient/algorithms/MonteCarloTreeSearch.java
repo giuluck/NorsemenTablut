@@ -140,7 +140,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 
 	- consider to use a probability to use heuristics or not and consider the state of the match (pieces, opening/closing)
 	*/
-	private boolean simulate(Node<S, A> node) {
+	protected boolean simulate(Node<S, A> node) {
 		while (!this.game.isTerminal(node.getState())) {
 			final Random rand = new Random();
 			final A a = this.game.getActions(node.getState()).get(rand.nextInt(this.game.getActions(node.getState()).size()));
