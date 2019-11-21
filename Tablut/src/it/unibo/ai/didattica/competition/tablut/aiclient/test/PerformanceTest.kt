@@ -10,7 +10,7 @@ import kotlinx.coroutines.*
 
 fun main() = runBlocking {
     println("Test vs Test")
-    benchmark(1) { TablutWellDoneRandomClient("white", timeout = 6) vs TablutIterativeDeepeningClient("black", timeout = 6) }.toConsole()
+    benchmark { TablutWellDoneRandomClient("white") vs TablutWellDoneRandomClient("black") }.toConsole()
 }
 
 private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClient, TablutClient>): Stats = Stats().apply {
@@ -21,7 +21,7 @@ private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClien
 }
 
 private suspend fun singleMatch(players: () -> Pair<TablutClient, TablutClient>): Turn = withContext(Dispatchers.Default) {
-    async { Server(60, -1, 0, 0, 4, true).apply {
+    async { Server(60, -1, 0, 0, 4, false).apply {
         println("Start server...")
         run()
         println("Stop server.")
@@ -34,7 +34,7 @@ private suspend fun singleMatch(players: () -> Pair<TablutClient, TablutClient>)
             it.join()
         }
         println("Stop players.")
-    }.await().currentState.turn.apply { println("Match ended with result $this \n") }
+    }.await().currentState.turn.apply { println("Match ended with result $this") }
 }
 
 private infix fun TablutClient.vs(opponent: TablutClient): Pair<TablutClient, TablutClient> = this to opponent

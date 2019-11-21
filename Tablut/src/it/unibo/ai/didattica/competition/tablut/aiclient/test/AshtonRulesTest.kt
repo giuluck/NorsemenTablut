@@ -18,7 +18,7 @@ class AshtonRulesTest : StringSpec() {
     private lateinit var game: Game
     private lateinit var state: State
     private lateinit var referee: TablutGame
-    private lateinit var rules: Set<MovementRule>
+    private lateinit var rules: Collection<MovementRule>
 
     init {
         "each and only valid move must be potentially performed" {

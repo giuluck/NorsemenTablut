@@ -28,7 +28,7 @@ class AshtonTablut : TablutGame {
             .filter { coord -> !citadels(state).contains(coord) }
             .toSet()
 
-        fun movementRules(state: State): Set<MovementRule> = setOf(
+        fun movementRules(state: State): Collection<MovementRule> = listOf(
             MovementRules.noMovement(),
             MovementRules.outOfBoard(),
             MovementRules.diagonalMovement(),
@@ -36,20 +36,20 @@ class AshtonTablut : TablutGame {
             MovementRules.citadelClimbing(citadels(state))
         )
 
-        fun updateRules(state: State): Set<UpdateRule> = setOf(
+        fun updateRules(state: State): Collection<UpdateRule> = listOf(
+            UpdateRules.stalemate(),
             UpdateRules.simpleCheckerCapture(citadels(state)),
             UpdateRules.specialKingCapture(),
             UpdateRules.kingEscape(winningCells(state)),
-            UpdateRules.noDuplicateState(),
-            UpdateRules.opponentStalemate(movementRules(state))
+            UpdateRules.noDuplicateState()
         )
     }
 
     private val initialState: State = StateTablut()
 
-    private val movementRules: Set<MovementRule> = movementRules(initialState)
+    private val movementRules: Collection<MovementRule> = movementRules(initialState)
 
-    private val updateRules: Set<UpdateRule> = updateRules(initialState)
+    private val updateRules: Collection<UpdateRule> = updateRules(initialState)
 
     override fun getInitialState(): State = initialState
 
@@ -57,7 +57,11 @@ class AshtonTablut : TablutGame {
         board[action.rowTo][action.columnTo] = board[action.rowFrom][action.columnFrom]
         board[action.rowFrom][action.columnFrom] = Pawn.EMPTY
         center.takeIf { board[it.x][it.y] == Pawn.EMPTY }?.let { board[it.x][it.y] = Pawn.THRONE }
-        updateRules.forEach { it.update(this, action) }
+        updateRules.takeWhile {
+            it.update(this, action)
+            !state.turn.isTerminal
+        }
+        turn = turn.opponent
     }
 
     override fun getPlayer(state: State): Turn = state.turn
@@ -65,8 +69,8 @@ class AshtonTablut : TablutGame {
     override fun getPlayers(): Array<Turn> = Turn.values()
 
     override fun getActions(state: State): List<Action> =
-        state.allLegalMoves(movementRules).toList().apply {
-            check(isNotEmpty()) { "There must be at least one possible action" }
+        with (state.allLegalMoves(movementRules)) {
+            if (isEmpty()) listOf(UpdateRules.stalemateAction(state.turn)) else toList()
         }
 
     override fun getUtility(state: State, player: Turn): Double = when(state.turn) {

@@ -8,6 +8,20 @@ import it.unibo.ai.didattica.competition.tablut.domain.State.*
 
 class UpdateRules private constructor() {
     companion object {
+        fun stalemateAction(turn: Turn): Action =
+            Action("stalemate", "stalemate", if (turn == Turn.BLACK) Turn.WHITEWIN else Turn.BLACKWIN)
+
+        /**
+         * If the only action a player can perform is the stalemate placeholder, it loses.
+         */
+        fun stalemate(): UpdateRule =
+            object : UpdateRule {
+                override fun update(state: State, action: Action) {
+                    if (action.from == "stalemate")
+                        state.turn = action.turn
+                }
+            }
+
         /**
          * A white (black) pawn is captured if after an opponent move
          * either it is in the middle of two black (white) pawns
@@ -81,14 +95,6 @@ class UpdateRules private constructor() {
                             if (previousStates.contains(this)) turn = Turn.DRAW
                             else previousStates.add(this)
                         } ?: previousStates.clear()
-                }
-            }
-
-        fun opponentStalemate(movementRules: Set<MovementRule>): UpdateRule =
-            BasicUpdateRule {
-                turn = turn.opponent
-                if (!turn.isTerminal && allLegalMoves(movementRules).isEmpty()) {
-                    turn = if (turn == Turn.BLACK) Turn.WHITEWIN else Turn.BLACKWIN
                 }
             }
     }

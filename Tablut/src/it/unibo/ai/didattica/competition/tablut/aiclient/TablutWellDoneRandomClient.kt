@@ -12,7 +12,7 @@ class TablutWellDoneRandomClient @JvmOverloads constructor(
     timeout: Int = 60,
     ipAddress: String = "localhost"
 ) : TablutClient(player, "Norsemen", timeout, ipAddress) {
-    val movementRules: Set<MovementRule> by lazy {
+    val movementRules: Collection<MovementRule> by lazy {
         AshtonTablut.movementRules(currentState)
     }
 
