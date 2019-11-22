@@ -86,7 +86,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 
 			routine.get(this.executionLimit, TimeUnit.MILLISECONDS);
 		} catch (final TimeoutException e) {
-			// System.err.println("Timeout");
+			//System.err.println("Timeout");
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -108,6 +108,7 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 		final boolean result = this.simulate(child);
 		// BACKPROPAGATE(result, child)
 		this.backpropagate(result, child);
+		System.out.println("=============================");
 	}
 
 	/*
@@ -158,8 +159,10 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	
 	private void backpropagate(final boolean result, final Node<S, A> node) {
 		this.tree.updateStats(result, node);
-		if (this.tree.getParent(node) != null) {
-			this.backpropagate(result, this.tree.getParent(node));
+		//System.out.println(this.tree.getWi().get(node.getState()) + "/" + this.tree.getNi().get(node.getState()));
+		if (node.getParent() != null) {
+			// TODO: !result
+			this.backpropagate(!result, node.getParent());
 		}
 	}
 	
@@ -191,12 +194,16 @@ public class MonteCarloTreeSearch<S, A, P> implements AdversarialSearch<S, A> {
 	private Node<S, A> randomlySelectUnvisitedChild(final Node<S, A> node) {
 		final List<S> unvisitedChildren = new ArrayList<>();
 		final List<S> visitedChildren = tree.getVisitedChildren(node);
+		final List<A> actions = new ArrayList<>();
 		for (final A a : this.game.getActions(node.getState())) {
 			final S result = this.game.getResult(node.getState(), a);
-			if (!visitedChildren.contains(result)) unvisitedChildren.add(result);
+			if (!visitedChildren.contains(result)) {
+				unvisitedChildren.add(result);
+				actions.add(a);
+			}
 		}
-		final Random rand = new Random();
-		return this.tree.addChild(node, unvisitedChildren.get(rand.nextInt(unvisitedChildren.size())));
+		final int randomIndex = new Random().nextInt(unvisitedChildren.size());
+		return this.tree.addChild(node, unvisitedChildren.get(randomIndex), actions.get(randomIndex));
 	}
 	
 	@Override

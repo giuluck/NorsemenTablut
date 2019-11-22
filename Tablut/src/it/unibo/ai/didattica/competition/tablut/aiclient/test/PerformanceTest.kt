@@ -1,17 +1,16 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.test
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutMonteCarloClient
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutWellDoneRandomClient
+import it.unibo.ai.didattica.competition.tablut.aiclient.*
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
 import it.unibo.ai.didattica.competition.tablut.server.Server
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
-    println("Test vs Test")
-    benchmark { TablutIterativeDeepeningClient("white", timeout = 7) vs TablutWellDoneRandomClient("black") }.toConsole()
+    println("Minimax vs Test")
+    benchmark { TablutIterativeDeepeningClient("white", 7) vs TablutWellDoneRandomClient("black") }.toConsole()
 }
+
 
 private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClient, TablutClient>): Stats = Stats().apply {
     repeat(matches) {

@@ -24,19 +24,19 @@ public class TablutMonteCarloHeuristicTreeSearch extends MonteCarloTreeSearch<St
      */
     public TablutMonteCarloHeuristicTreeSearch(AshtonTablut game, long executionLimit, int iterationLimit, Heuristic heuristic) {
         super(game, executionLimit, iterationLimit);
-        this.searchStrategy = new TablutIterativeDeepeningAlphaBetaSearch(heuristic, (int) (executionLimit / 1000) );
+        this.searchStrategy = new TablutIterativeDeepeningAlphaBetaSearch(heuristic, (int) (executionLimit / 100000) );
     }
 
     @Override
     protected boolean simulate(Node<State, Action> node) {
         // TODO: Use [searchStrategy] here.
         while (!this.game.isTerminal(node.getState())) {
-            final Random rand = new Random();
-            final Action a = this.game.getActions(node.getState()).get(rand.nextInt(this.game.getActions(node.getState()).size()));
+            final Action a = this.searchStrategy.makeDecision(node.getState());
             final State result = this.game.getResult(node.getState(), a);
             final NodeFactory nodeFactory = new NodeFactory();
             node = nodeFactory.createNode(result);
         }
+
         // TODO: Tie?
         if (this.game.getUtility(node.getState(), this.game.getPlayer(this.tree.getRoot().getState())) > 0) {
             return true;

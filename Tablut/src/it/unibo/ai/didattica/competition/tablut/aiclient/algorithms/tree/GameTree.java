@@ -55,31 +55,14 @@ public class GameTree<S, A> {
 		return visitedChildren;
 	}
 	
-	public Node<S, A> addChild(final Node<S, A> parent, S child) {
-		final Node<S, A> newChild = this.nodeFactory.createNode(child);
+	public Node<S, A> addChild(final Node<S, A> parent, S child, A action) {
+		final Node<S, A> newChild = this.nodeFactory.createNode(child, parent, action, 1);
 		final List<Node<S, A>> children = successors(parent);
 		children.add(newChild);
 		this.gameTree.put(parent, children);
 		this.Wi.put(child, 0.0);
 		this.Ni.put(child, 0.0);
 		return newChild;
-	}
-	
-	public Node<S, A> getParent(final Node<S, A> node) {
-		Node<S, A> parent = null;
-		for (final Node<S, A> key : this.gameTree.keySet()) {
-			final List<Node<S, A>> children = successors(key);
-			for (Node<S, A> child : children) {
-				if (child.getState() == node.getState()) {
-					parent = key;
-					break;
-				}
-			}
-			if (parent != null) {
-				break;
-			}
-		}
-		return parent;
 	}
 	
 	public List<Node<S, A>> successors(final Node<S, A> node) {
@@ -127,23 +110,6 @@ public class GameTree<S, A> {
 				best_children = new ArrayList<>();
 				best_children.add(child);
 			} else if (playouts == max_playouts) {
-				best_children.add(child);
-			}
-		}
-		final Random rand = new Random();
-		return best_children.get(rand.nextInt(best_children.size()));
-	}
-
-	public Node<S, A> getChildWithMaxEvaluatedFunction(final Node<S, A> node, BiFunction<Node<S, A>, GameTree, Double> evaluationFunction) {
-		List<Node<S, A>> best_children = new ArrayList<>();
-		double max_value = Double.NEGATIVE_INFINITY;
-		for (final Node<S, A> child : successors(node)) {
-			double value = evaluationFunction.apply(child, this);
-			if (value > max_value) {
-				max_value = value;
-				best_children = new ArrayList<>();
-				best_children.add(child);
-			} else if (value == max_value) {
 				best_children.add(child);
 			}
 		}
