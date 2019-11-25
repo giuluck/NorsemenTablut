@@ -10,46 +10,33 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut
 import kotlin.IllegalStateException
-import kotlin.math.abs
 
 /**
  * Implementation of the Ashton version of Tablut using AIMA.
  */
 class AshtonTablut : TablutGame {
-    companion object {
-        fun citadels(state: State): Set<Coord> = state.center
-            .coordsAround(state.size / 2, state)
-            .flatMap { setOf(it, *it.coordsAround(1, state).toTypedArray()) }
-            .toSet()
 
-        fun winningCells(state: State): Set<Coord> = state.allCoords
-            .filter { (i, j) -> i == 0 || i == state.size - 1 || j == 0 || j == state.size - 1 }
-            .filter { (i, j) -> abs(i - j) != 0 && abs(i - j) != state.size - 1 }
-            .filter { coord -> !citadels(state).contains(coord) }
-            .toSet()
+    private val initialState: StateTablut = StateTablut()
 
-        fun movementRules(state: State): Collection<MovementRule> = listOf(
-            MovementRules.noMovement(),
-            MovementRules.outOfBoard(),
-            MovementRules.diagonalMovement(),
-            MovementRules.pawnClimbing(),
-            MovementRules.citadelClimbing(citadels(state))
-        )
+    override val citadels: Set<Coord> = initialState.citadels()
 
-        fun updateRules(state: State): Collection<UpdateRule> = listOf(
-            UpdateRules.stalemate(),
-            UpdateRules.simpleCheckerCapture(citadels(state)),
-            UpdateRules.specialKingCapture(),
-            UpdateRules.kingEscape(winningCells(state)),
-            UpdateRules.noDuplicateState()
-        )
-    }
+    override val winningCells: Set<Coord> = initialState.winningCells()
 
-    private val initialState: State = StateTablut()
+    override val movementRules: Collection<MovementRule> = listOf(
+        MovementRules.noMovement(),
+        MovementRules.outOfBoard(),
+        MovementRules.diagonalMovement(),
+        MovementRules.pawnClimbing(),
+        MovementRules.citadelClimbing(citadels)
+    )
 
-    private val movementRules: Collection<MovementRule> = movementRules(initialState)
-
-    private val updateRules: Collection<UpdateRule> = updateRules(initialState)
+    override val updateRules: Collection<UpdateRule> = listOf(
+        UpdateRules.stalemate(),
+        UpdateRules.simpleCheckerCapture(citadels),
+        UpdateRules.specialKingCapture(),
+        UpdateRules.kingEscape(winningCells),
+        UpdateRules.noDuplicateState()
+    )
 
     override fun getInitialState(): State = initialState
 

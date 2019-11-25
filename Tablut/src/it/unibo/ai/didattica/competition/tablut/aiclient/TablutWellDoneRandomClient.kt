@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
+import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allMoves
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.isTerminal
@@ -12,9 +13,8 @@ class TablutWellDoneRandomClient @JvmOverloads constructor(
     timeout: Int = 60,
     ipAddress: String = "localhost"
 ) : TablutClient(player, "Norsemen", timeout, ipAddress) {
-    val movementRules: Collection<MovementRule> by lazy {
-        AshtonTablut.movementRules(currentState)
-    }
+
+    private val game: TablutGame = AshtonTablut()
 
     override fun run() {
         declareName()
@@ -22,7 +22,7 @@ class TablutWellDoneRandomClient @JvmOverloads constructor(
             read()
             with (currentState) {
                 if (turn == player) {
-                    write(allLegalMoves(movementRules).random())
+                    write(allLegalMoves(game.movementRules).random())
                 }
             }
         }

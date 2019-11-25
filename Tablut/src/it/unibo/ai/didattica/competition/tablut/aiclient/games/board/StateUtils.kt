@@ -4,6 +4,8 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRul
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
+import it.unibo.ai.didattica.competition.tablut.domain.StateTablut
+import kotlin.math.abs
 
 /**
  * Size of the board.
@@ -20,18 +22,35 @@ val State.center: Coord
 /**
  * A list of all the possible cells of the board expressed as a Coord object.
  */
-val State.allCoords: Sequence<Coord>
+val State.allCoords: Collection<Coord>
     get() = board.indices.asSequence().flatMap { i ->
         board.indices.map { j -> Coord(i, j) }.asSequence()
-    }
+    }.toList()
 
 /**
  * A list of all the possible actions (each of them, not just the legal ones) in a state.
  */
-val State.allMoves: Sequence<Action>
+val State.allMoves: Collection<Action>
     get() = allCoords.flatMap { start ->
         allCoords.map { end -> Action(start.toString(), end.toString(), turn) }
     }
+
+/**
+ * The cells of the board where black pawns are positioned at the beginning of the game.
+ */
+fun StateTablut.citadels(): Set<Coord> = center
+        .coordsAround(size / 2, this)
+        .flatMap { setOf(it, *it.coordsAround(1, this).toTypedArray()) }
+        .toSet()
+
+/**
+ * The cells of the game board the king must reach in order to let white player win.
+ */
+fun StateTablut.winningCells(): Set<Coord> = allCoords
+        .filter { (i, j) -> i == 0 || i == size - 1 || j == 0 || j == size - 1 }
+        .filter { (i, j) -> abs(i - j) != 0 && abs(i - j) != size - 1 }
+        .filter { coord -> !citadels().contains(coord) }
+        .toSet()
 
 /**
  * The set of pawn types owned by each player.
@@ -83,6 +102,12 @@ fun State.playerCoords(player: Turn): Set<Coord> =
         .filter { (_, pawn) -> player.pawns.contains(pawn) }
         .map { (coord, _) -> coord }
         .toSet()
+
+/**
+ * The coordinate where there is the king.
+ */
+val State.kingCoord: Coord
+    get() = playerCoords(Turn.WHITE).first { pawnAt(it) == Pawn.KING }
 
 /**
  * Get all legal moves for the passed position in the current board state.

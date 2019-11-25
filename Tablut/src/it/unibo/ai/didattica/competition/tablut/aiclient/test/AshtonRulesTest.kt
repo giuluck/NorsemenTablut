@@ -15,18 +15,18 @@ import kotlin.random.Random
 
 class AshtonRulesTest : StringSpec() {
     private lateinit var generator: Random
-    private lateinit var game: Game
+    private lateinit var referee: Game
     private lateinit var state: State
-    private lateinit var referee: TablutGame
+    private lateinit var game: TablutGame
     private lateinit var rules: Collection<MovementRule>
 
     init {
         "each and only valid move must be potentially performed" {
             // brings the state to a random moment by performing 20 moves then checks
-            repeat(20) { game.checkMove(state, state.allLegalMoves(rules).random(generator)) }
+            repeat(20) { referee.checkMove(state, state.allLegalMoves(rules).random(generator)) }
             state.allMoves.filter {
                 try {
-                    game.checkMove(state.clone(), it)
+                    referee.checkMove(state.clone(), it)
                     true
                 } catch (e: Throwable) {
                     false
@@ -36,10 +36,10 @@ class AshtonRulesTest : StringSpec() {
         }
 
         "simulating a match randomly selecting a legal move no error must be encountered" {
-            while (!referee.isTerminal(state)) {
+            while (!game.isTerminal(state)) {
                 state.allLegalMoves(rules).random(generator).also { move ->
                     try {
-                        game.checkMove(state, move)
+                        referee.checkMove(state, move)
                     } catch (e: Throwable) {
                         state.toConsole()
                         fail("$move is not a valid move.")
@@ -50,11 +50,11 @@ class AshtonRulesTest : StringSpec() {
 
         "running a game updating the state autonomously no error must be encountered" {
             var copy: State = state.clone()
-            while (!referee.isTerminal(copy)) {
-                referee.getActions(copy).random(generator).also { move ->
+            while (!game.isTerminal(copy)) {
+                game.getActions(copy).random(generator).also { move ->
                     try {
-                        copy = referee.getResult(copy, move)
-                        game.checkMove(state, move)
+                        copy = game.getResult(copy, move)
+                        referee.checkMove(state, move)
                         copy shouldBe state
                     } catch (e: Throwable) {
                         fail("Unexpected game states:\n\n$copy\n\nshould have been\n\n$state")
@@ -67,9 +67,9 @@ class AshtonRulesTest : StringSpec() {
     override fun beforeTest(testCase: TestCase) {
         super.beforeTest(testCase)
         generator = Random(0)
-        game = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
+        referee = GameAshtonTablut(0, 0, "garbage", "fake", "fake")
         state = StateTablut()
-        referee = AshtonTablut()
-        rules = AshtonTablut.movementRules(state)
+        game = AshtonTablut()
+        rules = game.movementRules
     }
 }
