@@ -11,6 +11,7 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRul
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.toConsole
 import kotlin.random.Random
 
 class AshtonRulesTest : StringSpec() {

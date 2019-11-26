@@ -114,7 +114,7 @@ val State.kingCoord: Coord
  */
 fun State.legalMovesForCoord(coord: Coord, rules: Collection<MovementRule>): Set<Action> =
     Direction.values()
-        .flatMap { coordsInDirection(coord, it) }
+        .flatMap { legalCoordsInDirection(coord, it) }
         .asSequence()
         .map { Action(coord.toString(), it.toString(), turn) }
         .filter { isValidMove(it, rules) }
@@ -129,7 +129,14 @@ fun State.coordsInDirection(coord: Coord, dir: Direction): List<Coord> = when (d
     Direction.DOWN -> coord.coordsReaching(Coord(board.size - 1, coord.y))
     Direction.LEFT -> coord.coordsReaching(Coord(coord.x, 0))
     Direction.RIGHT -> coord.coordsReaching(Coord(coord.x, board.size - 1))
-}.asSequence().takeWhile { pawnAt(it) == Pawn.EMPTY }.toList()
+}
+
+/**
+ * Get all the existing coordinates starting from a given position and
+ * proceeding always in the same direction until a pawn is met or the end of the board is reached.
+ */
+fun State.legalCoordsInDirection(coord: Coord, dir: Direction): List<Coord> =
+    coordsInDirection(coord, dir).asSequence().takeWhile { pawnAt(it) == Pawn.EMPTY }.toList()
 
 /**
  * Check if the action is valid or not considering the game rules and the current game state.

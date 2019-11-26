@@ -8,9 +8,8 @@ import kotlinx.coroutines.*
 
 fun main() = runBlocking {
     println("Minimax vs Test")
-    benchmark { TablutIterativeDeepeningClient("white", 7) vs TablutWellDoneRandomClient("black") }.toConsole()
+    benchmark(10) { TablutWellDoneRandomClient("white") vs TablutIterativeDeepeningClient("black", 6)}.toConsole()
 }
-
 
 private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClient, TablutClient>): Stats = Stats().apply {
     repeat(matches) {
@@ -20,14 +19,14 @@ private suspend fun benchmark(matches: Int = 10, players: () -> Pair<TablutClien
 }
 
 private suspend fun singleMatch(players: () -> Pair<TablutClient, TablutClient>): Turn = withContext(Dispatchers.Default) {
-    async { Server(60, -1, 0, 0, 4, true).apply {
+    async { Server(60, -1, 0, 0, 4, false).apply {
         println("Start server...")
         run()
         println("Stop server.")
     } }.also {
         delay(1000)
-        println("Start players... ")
         players().toList().map {
+            println("Start ${it.player}... ")
             launch { it.run() }
         }.forEach {
             it.join()

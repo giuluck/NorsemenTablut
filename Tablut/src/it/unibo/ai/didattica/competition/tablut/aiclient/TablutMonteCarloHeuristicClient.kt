@@ -2,7 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.TablutMonteCarloHeuristicTreeSearch
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.Heuristic
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.PiecesDifference
+import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.PawnsDifference
 import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
 
 /**
@@ -12,7 +12,7 @@ open class TablutMonteCarloHeuristicClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,
     ipAddress: String = "localhost",
-    heuristic: Heuristic = PiecesDifference()
+    heuristic: Heuristic = PawnsDifference()
 ) : TablutIntelligentClient(
     player,
     timeout,
