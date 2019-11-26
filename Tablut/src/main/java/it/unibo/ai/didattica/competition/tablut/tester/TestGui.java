@@ -1,6 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.tester;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class TestGui {
 	private TestGuiFrame frame;

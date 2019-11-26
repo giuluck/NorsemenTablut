@@ -1,10 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.gui;
 
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 
 public class BackgroundTablut extends Background {

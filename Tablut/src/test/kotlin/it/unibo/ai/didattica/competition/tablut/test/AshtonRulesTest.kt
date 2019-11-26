@@ -5,13 +5,16 @@ import io.kotlintest.fail
 import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import it.unibo.ai.didattica.competition.tablut.domain.*
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.rules.MovementRule
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.TablutGame
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allLegalMoves
-import it.unibo.ai.didattica.competition.tablut.aiclient.games.board.allMoves
-import it.unibo.ai.didattica.competition.tablut.aiclient.test.toConsole
+import it.unibo.ai.didattica.competition.tablut.aiclient.game.AshtonTablut
+import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
+import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allMoves
+import it.unibo.ai.didattica.competition.tablut.aiclient.game.rules.MovementRule
+import it.unibo.ai.didattica.competition.tablut.domain.Game
+import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut
+import it.unibo.ai.didattica.competition.tablut.domain.State
+import it.unibo.ai.didattica.competition.tablut.domain.StateTablut
+import it.unibo.ai.didattica.competition.tablut.util.toConsole
 import kotlin.random.Random
 
 class AshtonRulesTest : StringSpec() {

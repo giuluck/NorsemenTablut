@@ -1,19 +1,11 @@
 package it.unibo.ai.didattica.competition.tablut.tester;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Label;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-
 import it.unibo.ai.didattica.competition.tablut.domain.*;
-import it.unibo.ai.didattica.competition.tablut.domain.State.*;
+import it.unibo.ai.didattica.competition.tablut.domain.State.Pawn;
 import it.unibo.ai.didattica.competition.tablut.gui.Gui;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class TestGuiFrame extends JFrame{
 

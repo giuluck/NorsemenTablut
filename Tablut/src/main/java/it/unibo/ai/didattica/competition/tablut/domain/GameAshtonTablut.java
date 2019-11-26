@@ -1,5 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.domain;
 
+import it.unibo.ai.didattica.competition.tablut.exceptions.*;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -7,11 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
-import it.unibo.ai.didattica.competition.tablut.exceptions.*;
 
 /**
  * 

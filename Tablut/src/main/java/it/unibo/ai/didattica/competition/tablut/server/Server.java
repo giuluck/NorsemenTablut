@@ -1,5 +1,11 @@
 package it.unibo.ai.didattica.competition.tablut.server;
 
+import com.google.gson.Gson;
+import it.unibo.ai.didattica.competition.tablut.domain.*;
+import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
+import it.unibo.ai.didattica.competition.tablut.gui.Gui;
+import it.unibo.ai.didattica.competition.tablut.util.StreamUtils;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -9,14 +15,10 @@ import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.logging.*;
-
-import it.unibo.ai.didattica.competition.tablut.domain.*;
-import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
-import it.unibo.ai.didattica.competition.tablut.gui.Gui;
-import it.unibo.ai.didattica.competition.tablut.util.StreamUtils;
-
-import com.google.gson.Gson;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * this class represent the server of the match: 2 clients with TCP connection

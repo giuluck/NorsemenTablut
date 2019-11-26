@@ -1,13 +1,13 @@
 package it.unibo.ai.didattica.competition.tablut.domain;
 
+import it.unibo.ai.didattica.competition.tablut.exceptions.*;
+
 import java.io.File;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
-import it.unibo.ai.didattica.competition.tablut.exceptions.*;
 
 /**
  *

@@ -1,12 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.gui;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.JFrame;
-
 import it.unibo.ai.didattica.competition.tablut.domain.State;
-import it.unibo.ai.didattica.competition.tablut.domain.State;
+
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class Background extends JFrame {
 	

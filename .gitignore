@@ -1,6 +1,7 @@
 # IDE related
 .idea
 build
+out
 garbage
 logs
 
