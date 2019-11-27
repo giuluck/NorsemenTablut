@@ -1,9 +1,11 @@
 # IDE related
 .idea
+.gradle
 build
 out
 garbage
 logs
+bin
 
 # Prerequisites
 *.d
@@ -60,9 +62,3 @@ dkms.conf
 
 # Automated testing in bash
 /Tablut/test.sh
-
-# Ignore Gradle project-specific cache directory
-.gradle
-
-# Ignore Gradle build output directory
-build
