@@ -39,6 +39,7 @@ bin
 
 # Executables
 *.exe
+*.sh
 *.out
 *.app
 *.i*86
@@ -59,6 +60,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-# Automated testing in bash
-/Tablut/test.sh
