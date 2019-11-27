@@ -77,6 +77,7 @@ public abstract class TablutClient implements Runnable {
 		} else {
 			throw new InvalidParameterException("Player role must be BLACK or WHITE");
 		}
+
 		playerSocket = new Socket(serverIp, port);
 		out = new DataOutputStream(playerSocket.getOutputStream());
 		in = new DataInputStream(playerSocket.getInputStream());

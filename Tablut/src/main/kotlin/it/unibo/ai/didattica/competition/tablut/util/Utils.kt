@@ -1,9 +1,19 @@
 package it.unibo.ai.didattica.competition.tablut.util
 
+import java.io.File
+
 /**
- * Print any object calling it in the console.
+ * Print any object to the console.
  */
 fun Any?.toConsole(): Unit = println(this)
+
+/**
+ * Write a string into the given file.
+ */
+fun String.toFile(file: String): Unit = File(file).run {
+    parentFile.mkdirs()
+    writeText(this@toFile)
+}
 
 /**
   * Returns the value if present, otherwise the given value.
@@ -16,11 +26,6 @@ fun <T> T?.orElse(other: T): T = this ?: other
 fun <T> T?.orThrow(message: String = "Unexpected empty nullable value"): T = this ?: throw IllegalStateException(message)
 
 /**
- * Runs a routine. If an exception is thrown, it prints the stack trace.
+ * For each method using lambda with receiver.
  */
-fun tryOrPrint(routine: () -> Unit) =
-    runCatching(routine).onFailure {
-        it.printStackTrace()
-    }.getOrDefault(Unit)
-
 fun <T> Collection<T>.forEachSelf(routine: T.() -> Unit) = forEach(routine)

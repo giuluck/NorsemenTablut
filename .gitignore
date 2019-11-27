@@ -6,6 +6,7 @@ out
 garbage
 logs
 bin
+benchmarks
 
 # Prerequisites
 *.d

@@ -32,6 +32,8 @@ public class Server implements Runnable {
 	public static int whitePort = 5800;
 	public static int blackPort = 5801;
 
+	public int moves = 0;
+
 	/**
 	 * State of the game
 	 */
@@ -103,7 +105,7 @@ public class Server implements Runnable {
 		this.theGui.update(state);
 	}
 
-	public State getCurrentState() {
+	public State getState() {
 		return state;
 	}
 
@@ -490,6 +492,8 @@ public class Server implements Runnable {
 
 		// GAME CYCLE
 		while (!endgame) {
+			moves++;
+
 			// RECEIVE MOVE
 			
 			//System.out.println("State: \n"+state.toString());

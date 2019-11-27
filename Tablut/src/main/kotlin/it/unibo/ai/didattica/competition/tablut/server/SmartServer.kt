@@ -2,15 +2,14 @@ package it.unibo.ai.didattica.competition.tablut.server
 
 import com.google.gson.Gson
 import it.unibo.ai.didattica.competition.tablut.domain.*
-import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
+import it.unibo.ai.didattica.competition.tablut.domain.State.Turn.*
 import it.unibo.ai.didattica.competition.tablut.gui.Gui
 import it.unibo.ai.didattica.competition.tablut.util.StreamUtils
 import it.unibo.ai.didattica.competition.tablut.util.forEachSelf
-import it.unibo.ai.didattica.competition.tablut.util.tryOrPrint
-
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.ServerSocket
+import kotlin.concurrent.thread
 
 /**
  * A practically usable server.
@@ -25,101 +24,89 @@ class SmartServer(
         private val GSON = Gson()
     }
 
-    private var gsonString: String = ""
-    private val white: Client = Client(5800)
-    private val black: Client = Client(5801)
+    val stats: Stats
+        get() = Stats(moves = moves, winner = when (state.turn) {
+            WHITEWIN -> "white"
+            BLACKWIN -> "black"
+            DRAW -> "draw"
+            else -> throw IllegalStateException("Match not finished yet")
+        })
 
-    var state: State = StateTablut().apply { turn = Turn.WHITE }
-
+    private var moves: Int = 0
+    private val state: State = StateTablut().apply { turn = WHITE }
     private val game: Game by lazy {
-        GameAshtonTablut(
-            state,
-            0,
-            moveCache,
-            "logs",
-            white.name,
-            black.name
-        )
+        GameAshtonTablut(state, 0, moveCache, "logs", white.name, black.name)
     }
-
-    private val gui: Gui by lazy {
-        Gui(4)
-    }
+    private val gui: Gui by lazy { Gui(4) }
+    private val white: Client = Client(Server.whitePort)
+    private val black: Client = Client(Server.blackPort)
+    private var gson: String = ""
 
     override fun run() {
-        lateinit var tcpInput: TCPInput
-        var endgame = false
-
         // open sockets and read name
-        tryOrPrint {
-            listOf(white, black).forEachSelf {
-                socket = ServerSocket(port)
-                socket.accept().let { socket ->
-                    move = DataInputStream(socket.getInputStream())
-                    state = DataOutputStream(socket.getOutputStream())
-                    turn = TCPInput(move)
-                    turn.timer()
-                    name = GSON.fromJson(gsonString, String::class.java)
-                }
+        listOf(white, black).forEachSelf {
+            with (socket.accept()) {
+                input = DataInputStream(getInputStream())
+                output = DataOutputStream(getOutputStream())
+                turn = TCPInput(input).apply { timer() }
+                name = GSON.fromJson(gson, String::class.java)
             }
         }
-
-        tcpInput = white.turn
-        tryOrPrint { update() }
 
         // game cycle
-        while (!endgame) {
-            tcpInput.timer()
-
-            tryOrPrint {
-                state = game.checkMove(state, GSON.fromJson(gsonString, Action::class.java))
-                update()
+        update()
+        generateSequence(white) { if (it == white) black else white }.map { it.turn }.forEach {
+            moves++
+            it.timer()
+            game.checkMove(state, GSON.fromJson(gson, Action::class.java))
+            update()
+            if (state.turn != WHITE && state.turn != BLACK) {
+                black.socket.close()
+                white.socket.close()
+                return
             }
-
-            when (state.turn) {
-                Turn.WHITE -> tcpInput = white.turn
-                Turn.BLACK -> tcpInput = black.turn
-                else -> endgame = true
-            }
-        }
-
-        // end
-        tryOrPrint {
-            black.socket.close()
-            white.socket.close()
         }
     }
 
     private fun update() {
-        gsonString = GSON.toJson(state)
-        StreamUtils.writeString(white.state, gsonString)
-        StreamUtils.writeString(black.state, gsonString)
+        gson = GSON.toJson(state)
+        StreamUtils.writeString(white.output, gson)
+        StreamUtils.writeString(black.output, gson)
         if (enableGui) gui.update(state)
     }
 
-    private inner class TCPInput(private val stream: DataInputStream) : Runnable {
-        override fun run(): Unit = tryOrPrint {
-            gsonString = StreamUtils.readString(stream)
-        }
-
-        fun timer() = with(Thread(this)) {
-            start()
-            tryOrPrint {
-                var counter = 0
-                while (counter < time && isAlive) {
-                    Thread.sleep(1000)
-                    counter++
-                }
+    private inner class TCPInput(private val stream: DataInputStream) {
+        fun timer(): Thread = thread { gson = StreamUtils.readString(stream) }.apply {
+            repeat(time) {
+                if (isAlive) Thread.sleep(1000)
+                else return@apply
             }
         }
     }
 
-    private inner class Client(val port: Int) {
-        lateinit var name: String
-        lateinit var socket: ServerSocket
-        lateinit var move: DataInputStream
-        lateinit var state: DataOutputStream
+    private inner class Client(port: Int) {
+        val socket: ServerSocket = ServerSocket(port)
+        lateinit var input: DataInputStream
+        lateinit var output: DataOutputStream
         lateinit var turn: TCPInput
+        lateinit var name: String
+    }
+
+    data class Stats(
+        val winner: String,
+        val moves: Int
+    ) {
+        companion object {
+            val Collection<Stats>.victories: Map<String, Int>
+                get() = groupBy { it.winner }.mapValues { (_, wonMatches) -> wonMatches.count() }
+
+            fun Collection<Stats>.percentage(winner: String): Double =
+                100.0 * filter { it.winner == winner }.count() / count()
+
+            fun Collection<Stats>.printInfo(name: String): String =
+                mapIndexed { i, (winner, moves) -> "${i + 1}: $winner -> $moves moves" }
+                    .joinToString(separator = "\n", prefix = "$name\n")
+        }
     }
 }
 
