@@ -9,7 +9,7 @@ import it.unibo.ai.didattica.competition.tablut.util.toConsole
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
-    println("Minimax vs Test")
+    println("Minimax vs Random\n")
     benchmark(1) { TablutIterativeDeepeningClient("white", 6) vs TablutRandomClient("black") }.toConsole()
 }
 
