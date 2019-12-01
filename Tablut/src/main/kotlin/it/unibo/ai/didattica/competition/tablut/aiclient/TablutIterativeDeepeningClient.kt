@@ -10,11 +10,13 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.W
  */
 class TablutIterativeDeepeningClient @JvmOverloads constructor(
     player: String,
+    name: String,
     timeout: Int = 60,
     ipAddress: String = "localhost",
     heuristic: Heuristic = WeightedHeuristic.NORSEMEN_HEURISTIC
 ) : TablutIntelligentClient(
     player,
+    name,
     timeout,
     ipAddress,
     TablutIterativeDeepeningAlphaBetaSearch(heuristic, timeout - 5)

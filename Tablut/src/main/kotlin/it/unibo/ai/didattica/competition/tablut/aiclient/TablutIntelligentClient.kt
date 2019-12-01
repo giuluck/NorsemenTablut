@@ -18,12 +18,14 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
  */
 open class TablutIntelligentClient @JvmOverloads constructor(
     player: String,
+    name: String,
     timeout: Int = 60,
     ipAddress: String = "localhost",
     private val resolutiveStrategy: AdversarialSearch<State, Action>
-) : TablutClient(player, "Norsemen", timeout, ipAddress) {
+) : TablutClient(player, name, timeout, ipAddress) {
 
     override fun run() {
+        super.run()
         declareName()
         do {
             read()

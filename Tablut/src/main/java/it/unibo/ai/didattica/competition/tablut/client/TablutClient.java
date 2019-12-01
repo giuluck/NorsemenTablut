@@ -31,6 +31,7 @@ public abstract class TablutClient implements Runnable {
 	private State currentState;
 	private int timeout;
 	private String serverIp;
+	private int port;
 
 	public State.Turn getPlayer() {
 		return player;
@@ -62,9 +63,7 @@ public abstract class TablutClient implements Runnable {
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public TablutClient(String player, String name, int timeout, String ipAddress)
-			throws UnknownHostException, IOException {
-		int port = 0;
+	public TablutClient(String player, String name, int timeout, String ipAddress) {
 		serverIp = ipAddress;
 		this.timeout = timeout;
 		this.gson = new Gson();
@@ -77,10 +76,6 @@ public abstract class TablutClient implements Runnable {
 		} else {
 			throw new InvalidParameterException("Player role must be BLACK or WHITE");
 		}
-
-		playerSocket = new Socket(serverIp, port);
-		out = new DataOutputStream(playerSocket.getOutputStream());
-		in = new DataInputStream(playerSocket.getInputStream());
 		this.name = name;
 	}
 
@@ -132,6 +127,17 @@ public abstract class TablutClient implements Runnable {
 	 */
 	public TablutClient(String player, String name, String ipAddress) throws UnknownHostException, IOException {
 		this(player, name, 60, ipAddress);
+	}
+
+	@Override
+	public void run() {
+		try {
+			playerSocket = new Socket(serverIp, port);
+			out = new DataOutputStream(playerSocket.getOutputStream());
+			in = new DataInputStream(playerSocket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String getName() {

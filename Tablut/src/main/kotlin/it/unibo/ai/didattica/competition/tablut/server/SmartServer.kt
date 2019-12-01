@@ -14,28 +14,30 @@ import kotlin.concurrent.thread
 /**
  * A practically usable server.
  */
-class SmartServer(
-    private val time: Int = 5,
-    private val moveCache: Int = -1,
-    private val enableGui: Boolean = false
-) : Runnable {
+class SmartServer(private val moveTimeout: Int = 60) : Runnable {
 
     companion object {
         private val GSON = Gson()
     }
 
+    var enableGui: Boolean = false
     val stats: Stats
-        get() = Stats(moves = moves, winner = when (state.turn) {
-            WHITEWIN -> "white"
-            BLACKWIN -> "black"
-            DRAW -> "draw"
-            else -> throw IllegalStateException("Match not finished yet")
-        })
+        get() = Stats(
+            whitePlayer = white.name,
+            blackPlayer = black.name,
+            moves = moves,
+            result = when (state.turn) {
+                WHITEWIN -> "white win"
+                BLACKWIN -> "black win"
+                DRAW -> "draw"
+                else -> throw IllegalStateException("Match not finished yet")
+            }
+        )
 
     private var moves: Int = 0
     private val state: State = StateTablut().apply { turn = WHITE }
     private val game: Game by lazy {
-        GameAshtonTablut(state, 0, moveCache, "logs", white.name, black.name)
+        GameAshtonTablut(state, 0, -1, "logs", white.name, black.name)
     }
     private val gui: Gui by lazy { Gui(4) }
     private val white: Client = Client(Server.whitePort)
@@ -52,7 +54,6 @@ class SmartServer(
                 name = GSON.fromJson(gson, String::class.java)
             }
         }
-
         // game cycle
         update()
         generateSequence(white) { if (it == white) black else white }.map { it.turn }.forEach {
@@ -77,7 +78,7 @@ class SmartServer(
 
     private inner class TCPInput(private val stream: DataInputStream) {
         fun timer(): Thread = thread { gson = StreamUtils.readString(stream) }.apply {
-            repeat(time) {
+            repeat(moveTimeout) {
                 if (isAlive) Thread.sleep(1000)
                 else return@apply
             }
@@ -93,20 +94,12 @@ class SmartServer(
     }
 
     data class Stats(
-        val winner: String,
+        val whitePlayer: String,
+        val blackPlayer: String,
+        val result: String,
         val moves: Int
     ) {
-        companion object {
-            val Collection<Stats>.victories: Map<String, Int>
-                get() = groupBy { it.winner }.mapValues { (_, wonMatches) -> wonMatches.count() }
-
-            fun Collection<Stats>.percentage(winner: String): Double =
-                100.0 * filter { it.winner == winner }.count() / count()
-
-            fun Collection<Stats>.printInfo(name: String): String =
-                mapIndexed { i, (winner, moves) -> "${i + 1}: $winner -> $moves moves" }
-                    .joinToString(separator = "\n", prefix = "$name\n")
-        }
+        override fun toString(): String = "$whitePlayer vs $blackPlayer ended with a $result in $moves moves."
     }
 }
 

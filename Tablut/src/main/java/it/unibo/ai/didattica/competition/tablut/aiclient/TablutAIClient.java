@@ -13,6 +13,6 @@ public class TablutAIClient {
         final String role = args[0];
         final int timeout = Integer.parseInt(args[1]);
         final String server = args[2];
-        new TablutIterativeDeepeningClient(role, timeout, server).run();
+        new TablutIterativeDeepeningClient(role, "Norsemen", timeout, server).run();
     }
 }
