@@ -18,12 +18,12 @@ class KingSurrounded : Heuristic {
         if (!::citadels.isInitialized) initialize(game)
         val horizontal = weight(Direction.LEFT) + weight(Direction.RIGHT)
         val vertical = weight(Direction.TOP) + weight(Direction.DOWN)
-        0.5 * min(horizontal, vertical) / (maxDistance - 1)
+        0.5 * min(horizontal, vertical) / maxDistance
     }
 
     private fun State.initialize(game: TablutGame) {
         citadels = game.citadels.toSet()
-        maxDistance = size - 1
+        maxDistance = size - 2
     }
 
     /**
@@ -37,16 +37,14 @@ class KingSurrounded : Heuristic {
     private fun State.weight(direction: Direction): Int {
         var weight = maxDistance
         coordsInDirection(kingCoord, direction).forEach { coord ->
-            weight--
             when (pawnAt(coord)) {
                 Pawn.WHITE, Pawn.KING -> return weight
                 Pawn.BLACK -> return -weight
-                Pawn.THRONE -> return if (weight == maxDistance - 1) weight else 0
-                Pawn.EMPTY -> when {
-                    citadels.contains(coord) -> return if (weight == maxDistance - 1) -weight else 0
-                    else -> Unit
-                }
+                Pawn.THRONE -> return if (weight == maxDistance) weight else 0
+                Pawn.EMPTY -> if (citadels.contains(coord)) { return if (weight == maxDistance) -weight else 0 }
+                              else { Unit }
             }
+            weight--
         }
         return 0
     }
