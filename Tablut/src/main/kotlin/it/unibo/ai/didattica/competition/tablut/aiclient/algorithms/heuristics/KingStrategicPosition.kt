@@ -18,7 +18,7 @@ class KingStrategicPosition : Heuristic {
 
     override fun evaluate(game: TablutGame, state: State, player: State.Turn): Double = with(state) {
         if (!::heatMap.isInitialized) initialize(game)
-        heatMap[state.kingCoord].orThrow()
+        heatMap.getValue(state.kingCoord)
     }
 
     private fun State.initialize(game: TablutGame) {

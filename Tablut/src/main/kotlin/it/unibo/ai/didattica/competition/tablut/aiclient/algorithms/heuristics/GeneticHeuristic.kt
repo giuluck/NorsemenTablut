@@ -5,7 +5,6 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepenin
 import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State
-import it.unibo.ai.didattica.competition.tablut.util.orThrow
 
 class GeneticHeuristic(
     val individual: Individual<Double>
@@ -23,12 +22,12 @@ class GeneticHeuristic(
     )))
 
 
-    private val info: Map<Heuristic, Double> = with(individual.representation) {
+    private val info: Map<Heuristic, Double> = with(individual) {
         mapOf(
-            KingDistance() to component1(),
-            KingStrategicPosition() to component2(),
-            KingSurrounded() to component3(),
-            PawnsDifference() to component4()
+            KingDistance() to representation[0],
+            KingStrategicPosition() to representation[1],
+            KingSurrounded() to representation[2],
+            PawnsDifference() to representation[3]
         )
     }
 
@@ -42,8 +41,14 @@ class GeneticHeuristic(
             name = "Genetic",
             heuristic = heuristic
         )
-    }.run { component1() to component2() }
+    }.let { players -> players[0] to players[1] }
 
     override fun evaluate(game: TablutGame, state: State, player: State.Turn): Double =
         heuristic.evaluate(game, state, player)
+
+    override fun hashCode(): Int =
+        weights.hashCode()
+
+    override fun equals(other: Any?): Boolean =
+        if (other is GeneticHeuristic) { weights == other.weights } else false
 }

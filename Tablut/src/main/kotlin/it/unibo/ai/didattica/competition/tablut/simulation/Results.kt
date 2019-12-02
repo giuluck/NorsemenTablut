@@ -2,10 +2,12 @@ package it.unibo.ai.didattica.competition.tablut.simulation
 
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
-import it.unibo.ai.didattica.competition.tablut.util.toFile
 import it.unibo.ai.didattica.competition.tablut.simulation.Simulation.Stats
+import it.unibo.ai.didattica.competition.tablut.util.toFile
 import java.time.LocalDateTime
 import kotlin.math.ceil
+
+enum class Outcome { WIN, DRAW, LOSE }
 
 /**
  * Print generated statistics inside a file.
@@ -20,6 +22,32 @@ fun Collection<Stats>.saveToFile() {
             .replace(":", "")
             .replace(".", "")}.txt"
     )
+}
+
+/**
+ * Associate to all the players a list of triples representing the result of each one match they played
+ */
+val Collection<Stats>.results: Map<TablutClient, List<Triple<TablutClient, Outcome, Int>>>
+    get() = flatMap { stats -> with(stats) {
+        val (whiteResult, blackResult) = when(result) {
+            Turn.WHITEWIN -> Outcome.WIN to Outcome.LOSE
+            Turn.BLACKWIN -> Outcome.LOSE to Outcome.WIN
+            else -> Outcome.DRAW to Outcome.DRAW
+        }
+        listOf(
+            white to Triple(black, whiteResult, moves),
+            black to Triple(white, blackResult, moves)
+        )
+    } }.groupBy { (player, _) -> player }.mapValues { (_, results) -> results.map { it.second } }
+
+/**
+ * Flats the results returning a map that associates to each outcome the average number of moves performed.
+ */
+fun Collection<Stats>.flatResults(vararg players: TablutClient): Map<Outcome, Double> = with(results) {
+    players.flatMap { player -> getValue(player) }
+        .map { result -> result.second to result.third }
+        .groupBy { (outcome, _) -> outcome }
+        .mapValues { (_, moves) -> moves.map { it.second }.average() }
 }
 
 /**
