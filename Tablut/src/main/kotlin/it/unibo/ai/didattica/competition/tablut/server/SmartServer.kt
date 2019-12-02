@@ -21,21 +21,10 @@ class SmartServer(private val moveTimeout: Int = 60) : Runnable {
     }
 
     var enableGui: Boolean = false
-    val stats: Stats
-        get() = Stats(
-            whitePlayer = white.name,
-            blackPlayer = black.name,
-            moves = moves,
-            result = when (state.turn) {
-                WHITEWIN -> "white win"
-                BLACKWIN -> "black win"
-                DRAW -> "draw"
-                else -> throw IllegalStateException("Match not finished yet")
-            }
-        )
 
-    private var moves: Int = 0
-    private val state: State = StateTablut().apply { turn = WHITE }
+    var moves: Int = 0
+    val state: State = StateTablut().apply { turn = WHITE }
+
     private val game: Game by lazy {
         GameAshtonTablut(state, 0, -1, "logs", white.name, black.name)
     }
@@ -91,15 +80,6 @@ class SmartServer(private val moveTimeout: Int = 60) : Runnable {
         lateinit var output: DataOutputStream
         lateinit var turn: TCPInput
         lateinit var name: String
-    }
-
-    data class Stats(
-        val whitePlayer: String,
-        val blackPlayer: String,
-        val result: String,
-        val moves: Int
-    ) {
-        override fun toString(): String = "$whitePlayer vs $blackPlayer ended with a $result in $moves moves."
     }
 }
 

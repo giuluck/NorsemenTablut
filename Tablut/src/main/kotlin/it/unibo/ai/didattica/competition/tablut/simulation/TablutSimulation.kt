@@ -1,8 +1,8 @@
 package it.unibo.ai.didattica.competition.tablut.simulation
 
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
+import it.unibo.ai.didattica.competition.tablut.simulation.Simulation.Stats
 import it.unibo.ai.didattica.competition.tablut.server.SmartServer
-import it.unibo.ai.didattica.competition.tablut.server.SmartServer.Stats
 import kotlinx.coroutines.*
 
 /**
@@ -33,7 +33,9 @@ class TablutSimulation(
                     it.join()
                 }
                 debug("Stop clients.")
-            }.await().stats.apply { debug(this.toString() + "\n") }
+            }.await()
+            .run { Stats(players.first, players.second, state.turn, moves) }
+            .apply { debug(this.toString() + "\n") }
         }
     }
 

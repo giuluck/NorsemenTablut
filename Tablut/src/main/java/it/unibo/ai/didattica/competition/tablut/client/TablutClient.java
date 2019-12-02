@@ -60,8 +60,6 @@ public abstract class TablutClient implements Runnable {
 	 *            The timeout that will be taken into account (in seconds)
 	 * @param ipAddress
 	 *            The ipAddress of the server
-	 * @throws UnknownHostException
-	 * @throws IOException
 	 */
 	public TablutClient(String player, String name, int timeout, String ipAddress) {
 		serverIp = ipAddress;

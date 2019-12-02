@@ -16,11 +16,11 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
  * @param ipAddress
  *      the address of the server where the game will run.
  */
-open class TablutIntelligentClient @JvmOverloads constructor(
+open class TablutIntelligentClient(
     player: String,
     name: String,
-    timeout: Int = 60,
-    ipAddress: String = "localhost",
+    timeout: Int,
+    ipAddress: String,
     private val resolutiveStrategy: AdversarialSearch<State, Action>
 ) : TablutClient(player, name, timeout, ipAddress) {
 
