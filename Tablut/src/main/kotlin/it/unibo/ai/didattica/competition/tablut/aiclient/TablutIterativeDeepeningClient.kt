@@ -2,6 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.aiclient
 
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.TablutIterativeDeepeningAlphaBetaSearch
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.Heuristic
+import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.NorsemenHeuristic
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.WeightedHeuristic
 
 /**
@@ -13,7 +14,7 @@ class TablutIterativeDeepeningClient @JvmOverloads constructor(
     name: String,
     timeout: Int = 60,
     ipAddress: String = "localhost",
-    heuristic: Heuristic = WeightedHeuristic.NORSEMEN_HEURISTIC
+    heuristic: Heuristic = NorsemenHeuristic
 ) : TablutIntelligentClient(
     player,
     name,

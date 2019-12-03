@@ -6,7 +6,7 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State
 
-class GeneticHeuristic(
+open class GeneticHeuristic(
     val individual: Individual<Double>
 ) : Heuristic {
     constructor(
@@ -34,19 +34,22 @@ class GeneticHeuristic(
 
     val heuristic: Heuristic = WeightedHeuristic(*info.toList().toTypedArray())
 
-    val players: Pair<TablutClient, TablutClient> = listOf("white", "black").map { role ->
-        TablutIterativeDeepeningClient(
-            player = role,
-            name = "Genetic",
-            heuristic = heuristic
-        )
-    }.let { players -> players[0] to players[1] }
+    val whitePlayer: TablutClient = TablutIterativeDeepeningClient(
+        player = "white",
+        name = "Genetic",
+        heuristic = heuristic
+    )
+
+    val blackPlayer: TablutClient = TablutIterativeDeepeningClient(
+        player = "black",
+        name = "Genetic",
+        heuristic = heuristic
+    )
 
     override fun evaluate(game: TablutGame, state: State, player: State.Turn): Double =
         heuristic.evaluate(game, state, player)
 
-    override fun hashCode(): Int =
-        weights.hashCode()
+    override fun hashCode(): Int = weights.hashCode()
 
     override fun equals(other: Any?): Boolean =
         if (other is GeneticHeuristic) { weights == other.weights } else false

@@ -36,6 +36,7 @@ public class TablutHumanClient extends TablutClient {
 
 	@Override
 	public void run() {
+		super.run();
 		//System.out.println("You are player " + this.getPlayer().toString() + "!");
 		String actionStringFrom = "";
 		String actionStringTo = "";

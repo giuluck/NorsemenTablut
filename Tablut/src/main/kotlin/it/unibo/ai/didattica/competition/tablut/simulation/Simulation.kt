@@ -8,15 +8,6 @@ import it.unibo.ai.didattica.competition.tablut.server.SmartServer.*
  * An environment where it is possible to execute a match between two Tablut clients of any kind.
  */
 interface Simulation {
-    data class Stats(
-            val white: TablutClient,
-            val black: TablutClient,
-            val result: Turn,
-            val moves: Int
-    ) {
-        override fun toString(): String = "${white.name} vs ${black.name} ended with a $result in $moves moves."
-    }
-
     /**
      * Execute a single match between the two specified clients.
      */
@@ -38,8 +29,17 @@ interface Simulation {
             }.map { singleMatch(it, false) }
         }
 
-    /**
-     * An expressive way to create a pair of clients one against the other.
-     */
-    infix fun TablutClient.vs(opponent: TablutClient): Pair<TablutClient, TablutClient> = this to opponent
+    data class Stats(
+        val white: TablutClient,
+        val black: TablutClient,
+        val result: Turn,
+        val moves: Int
+    ) {
+        override fun toString(): String = "${white.name} vs ${black.name} ended with a $result in $moves moves."
+    }
 }
+
+/**
+ * An expressive way to create a pair of clients one against the other.
+ */
+infix fun TablutClient.vs(opponent: TablutClient): Pair<TablutClient, TablutClient> = this to opponent
