@@ -21,7 +21,6 @@ class GeneticHeuristic(
         pawnsDifference.toDouble()
     )))
 
-
     private val info: Map<Heuristic, Double> = with(individual) {
         mapOf(
             KingDistance() to representation[0],

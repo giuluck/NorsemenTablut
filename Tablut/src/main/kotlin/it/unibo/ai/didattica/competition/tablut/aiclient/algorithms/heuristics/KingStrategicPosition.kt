@@ -6,7 +6,6 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.Direction
 import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allCoords
 import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.kingCoord
 import it.unibo.ai.didattica.competition.tablut.domain.State
-import it.unibo.ai.didattica.competition.tablut.util.orThrow
 
 /**
  * An offline heuristic to evaluate the position of the king in the board.

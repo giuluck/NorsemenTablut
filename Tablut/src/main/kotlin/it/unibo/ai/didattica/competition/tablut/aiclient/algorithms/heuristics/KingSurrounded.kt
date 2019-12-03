@@ -41,8 +41,7 @@ class KingSurrounded : Heuristic {
                 Pawn.WHITE, Pawn.KING -> return weight
                 Pawn.BLACK -> return -weight
                 Pawn.THRONE -> return if (weight == maxDistance) weight else 0
-                Pawn.EMPTY -> if (citadels.contains(coord)) { return if (weight == maxDistance) -weight else 0 }
-                              else { Unit }
+                Pawn.EMPTY -> if (citadels.contains(coord)) return if (weight == maxDistance) -weight else 0
             }
             weight--
         }
