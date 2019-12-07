@@ -6,7 +6,10 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State
 
-open class GeneticHeuristic(
+/**
+ * A weighted heuristic which represents also an individual for a genetic algorithm.
+ */
+class GeneticHeuristic(
     val individual: Individual<Double>
 ) : Heuristic {
     constructor(

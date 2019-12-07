@@ -3,13 +3,15 @@ package it.unibo.ai.didattica.competition.tablut.test
 import aima.core.search.framework.problem.GoalTest
 import aima.core.search.local.GeneticAlgorithmForNumbers
 import aima.core.search.local.Individual
+import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.*
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.simulation.SimulationFunction
+import it.unibo.ai.didattica.competition.tablut.util.toFile
 import kotlin.math.floor
 import kotlin.math.log2
 
-const val MAX_SECONDS: Int = 2 * 60 * 60
+const val MAX_TIME_SECONDS: Int = 24 * 60 * 60 // 1 day
 val UNREACHABLE_GOAL: GoalTest = GoalTest { false }
 
 fun main() {
@@ -22,15 +24,15 @@ fun main() {
 
     val whiteWeights = geneticallyComputedWeights(
         initialPopulation,
-        listOf(NorsemenHeuristic.blackPlayer)
+        listOf(TablutIterativeDeepeningClient("black", "GeneticSimulation", 30))
     )
-    println("White: $whiteWeights")
+    "$whiteWeights".toFile("white.txt")
 
     val blackWeights = geneticallyComputedWeights(
         initialPopulation,
-        listOf(NorsemenHeuristic.whitePlayer)
+        listOf(TablutIterativeDeepeningClient("white", "GeneticSimulation", 30))
     )
-    println("Black: $blackWeights")
+    "$blackWeights".toFile("black.txt")
 }
 
 private fun geneticallyComputedWeights(
@@ -40,5 +42,5 @@ private fun geneticallyComputedWeights(
     initialPopulation,
     SimulationFunction(opponents),
     UNREACHABLE_GOAL,
-    MAX_SECONDS * 1000L
+    MAX_TIME_SECONDS * 1000L
 ).let { GeneticHeuristic(it).weights }

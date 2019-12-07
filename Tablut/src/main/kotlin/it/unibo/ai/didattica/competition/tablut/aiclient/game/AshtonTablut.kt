@@ -60,7 +60,7 @@ class AshtonTablut : TablutGame {
             if (isEmpty()) listOf(UpdateRules.stalemateAction(state.turn)) else toList()
         }
 
-    override fun getUtility(state: State, player: Turn): Double = when(state.turn) {
+    override fun getUtility(state: State, player: Turn): Double = when (state.turn) {
         Turn.WHITEWIN -> if (player == Turn.WHITE) 1.0 else -1.0
         Turn.BLACKWIN -> if (player == Turn.BLACK) 1.0 else -1.0
         Turn.DRAW -> 0.0

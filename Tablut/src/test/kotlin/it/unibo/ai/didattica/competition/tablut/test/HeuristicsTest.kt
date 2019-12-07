@@ -113,7 +113,7 @@ class HeuristicsTest : StringSpec() {
         }
 
         "test norsemen heuristic" {
-            with(NorsemenHeuristic) {
+            with (NorsemenWhiteHeuristic) {
                 while (!game.isTerminal(state)) {
                     valueAfter(1).apply {
                         shouldBeGreaterThanOrEqual(-1.0)

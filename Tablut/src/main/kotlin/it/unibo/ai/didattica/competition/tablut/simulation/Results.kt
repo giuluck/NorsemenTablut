@@ -25,7 +25,7 @@ fun Collection<Stats>.saveToFile() {
 }
 
 /**
- * Associate to all the players a list of triples representing the result of each one match they played
+ * Associate to all the players a list of triples representing the result of each match they played.
  */
 val Collection<Stats>.results: Map<TablutClient, List<Triple<TablutClient, Outcome, Int>>>
     get() = flatMap { stats -> with(stats) {
@@ -54,23 +54,24 @@ fun Collection<Stats>.flatResults(vararg players: TablutClient): Map<Outcome, Do
  * Associate all the players involved in at least one match
  * with a triple representing their number of wins, draws and loses.
  */
-fun Collection<Stats>.endings(movesWeights: (Int) -> Triple<Double, Double, Double> = { Triple(1.0, 1.0, 1.0) }):
-    Map<TablutClient, Triple<Double, Double, Double>> = analyze(Triple(0.0, 0.0, 0.0)) {
-        val weights = movesWeights(it.moves)
-        when(it.result) {
-            Turn.WHITEWIN -> {
-                computeIfPresent(it.white) { _, end -> Triple(end.first + weights.first, end.second, end.third) }
-                computeIfPresent(it.black) { _, end -> Triple(end.first, end.second, end.third + weights.third) }
-            }
-            Turn.BLACKWIN -> {
-                computeIfPresent(it.white) { _, end -> Triple(end.first, end.second, end.third + weights.third) }
-                computeIfPresent(it.black) { _, end -> Triple(end.first + weights.first, end.second, end.third) }
-            }
-            else -> {
-                computeIfPresent(it.white) { _, end -> Triple(end.first, end.second + weights.second, end.third) }
-                computeIfPresent(it.black) { _, end -> Triple(end.first, end.second + weights.second, end.third) }
-            }
+fun Collection<Stats>.endings(
+    movesWeights: (Int) -> Triple<Double, Double, Double> = { Triple(1.0, 1.0, 1.0) }
+) : Map<TablutClient, Triple<Double, Double, Double>> = analyze(Triple(0.0, 0.0, 0.0)) {
+    val weights = movesWeights(it.moves)
+    when(it.result) {
+        Turn.WHITEWIN -> {
+            computeIfPresent(it.white) { _, end -> Triple(end.first + weights.first, end.second, end.third) }
+            computeIfPresent(it.black) { _, end -> Triple(end.first, end.second, end.third + weights.third) }
         }
+        Turn.BLACKWIN -> {
+            computeIfPresent(it.white) { _, end -> Triple(end.first, end.second, end.third + weights.third) }
+            computeIfPresent(it.black) { _, end -> Triple(end.first + weights.first, end.second, end.third) }
+        }
+        else -> {
+            computeIfPresent(it.white) { _, end -> Triple(end.first, end.second + weights.second, end.third) }
+            computeIfPresent(it.black) { _, end -> Triple(end.first, end.second + weights.second, end.third) }
+        }
+    }
 }
 
 /**

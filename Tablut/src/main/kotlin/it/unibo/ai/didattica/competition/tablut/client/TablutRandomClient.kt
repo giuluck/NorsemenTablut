@@ -5,6 +5,9 @@ import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allLegalMoves
 import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.isTerminal
 
+/**
+ * A Tablut client who selects randomly the next move to perform.
+ */
 class TablutRandomClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,

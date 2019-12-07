@@ -1,6 +1,21 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
 
 /**
- * The final heuristic to be used.
+ * The final heuristic to use for the white player.
  */
-object NorsemenHeuristic : GeneticHeuristic(1, 2, 3, 5)
+object NorsemenWhiteHeuristic : WeightedHeuristic(
+    KingDistance() to 1.0,
+    KingStrategicPosition() to 2.0,
+    KingSurrounded() to 3.0,
+    PawnsDifference() to 5.0
+)
+
+/**
+ * The final heuristic to use for the black player.
+ */
+object NorsemenBlackHeuristic : WeightedHeuristic(
+    KingDistance() to 1.0,
+    KingStrategicPosition() to 2.0,
+    KingSurrounded() to 3.0,
+    PawnsDifference() to 5.0
+)

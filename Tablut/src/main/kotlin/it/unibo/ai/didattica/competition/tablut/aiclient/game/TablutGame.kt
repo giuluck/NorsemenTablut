@@ -9,7 +9,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
 
 /**
- * Interface representing the Tablut game inside AIMA library.
+ * Interface representing the Tablut game using AIMA library.
  */
 interface TablutGame : Game<State, Action, Turn> {
     /**
@@ -18,7 +18,7 @@ interface TablutGame : Game<State, Action, Turn> {
     val citadels: Collection<Coord>
 
     /**
-     * The cells of the game board the king must reach in order to let white player win.
+     * The cells of the game board the king must reach in order to let the white player win.
      */
     val winningCells: Collection<Coord>
 

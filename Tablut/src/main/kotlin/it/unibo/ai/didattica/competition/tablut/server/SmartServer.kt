@@ -12,7 +12,7 @@ import java.net.ServerSocket
 import kotlin.concurrent.thread
 
 /**
- * A practically usable server.
+ * A server which keeps trace of the statistics of the match.
  */
 class SmartServer(private val moveTimeout: Int = 60) : Runnable {
 

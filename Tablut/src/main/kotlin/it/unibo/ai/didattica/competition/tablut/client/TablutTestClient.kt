@@ -5,6 +5,9 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn.BLACK
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn.WHITE
 
+/**
+ * A player with an already prepared list of moves to do for test purposes.
+ */
 class TablutTestClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,

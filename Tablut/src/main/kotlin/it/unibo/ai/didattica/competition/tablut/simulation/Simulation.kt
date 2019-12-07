@@ -2,7 +2,6 @@ package it.unibo.ai.didattica.competition.tablut.simulation
 
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State.*
-import it.unibo.ai.didattica.competition.tablut.server.SmartServer.*
 
 /**
  * An environment where it is possible to execute a match between two Tablut clients of any kind.

@@ -8,13 +8,6 @@ import it.unibo.ai.didattica.competition.tablut.domain.State
 
 /**
  * An artificial intelligence based implementation of the Tablut client.
- *
- * @param player
- *      the role of the player in the game; it must be "white" or "black"
- * @param timeout
- *      maximum time in seconds during which the client can compute the next move.
- * @param ipAddress
- *      the address of the server where the game will run.
  */
 open class TablutIntelligentClient(
     player: String,
