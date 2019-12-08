@@ -1,9 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.client
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allLegalMoves
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.isTerminal
+import it.unibo.ai.didattica.competition.tablut.game.AshtonTablut
+import it.unibo.ai.didattica.competition.tablut.game.TablutGame
+import it.unibo.ai.didattica.competition.tablut.game.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.game.board.isTerminal
 
 /**
  * A Tablut client who selects randomly the next move to perform.
@@ -12,7 +12,7 @@ class TablutRandomClient @JvmOverloads constructor(
     player: String,
     timeout: Int = 60,
     ipAddress: String = "localhost"
-) : TablutClient(player, "Norsemen", timeout, ipAddress) {
+) : TablutClient(player, "Random", timeout, ipAddress) {
 
     private val game: TablutGame = AshtonTablut()
 

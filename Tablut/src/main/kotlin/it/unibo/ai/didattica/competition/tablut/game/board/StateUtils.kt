@@ -1,6 +1,6 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.game.board
+package it.unibo.ai.didattica.competition.tablut.game.board
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.rules.MovementRule
+import it.unibo.ai.didattica.competition.tablut.game.rules.MovementRule
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.Pawn

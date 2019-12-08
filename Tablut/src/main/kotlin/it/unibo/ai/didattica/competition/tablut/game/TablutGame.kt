@@ -1,9 +1,9 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.game
+package it.unibo.ai.didattica.competition.tablut.game
 
 import aima.core.search.adversarial.Game
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.Coord
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.rules.MovementRule
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.rules.UpdateRule
+import it.unibo.ai.didattica.competition.tablut.game.board.Coord
+import it.unibo.ai.didattica.competition.tablut.game.rules.MovementRule
+import it.unibo.ai.didattica.competition.tablut.game.rules.UpdateRule
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn

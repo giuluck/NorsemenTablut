@@ -1,11 +1,14 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.game.rules
+package it.unibo.ai.didattica.competition.tablut.game.rules
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.*
+import it.unibo.ai.didattica.competition.tablut.game.board.*
 import it.unibo.ai.didattica.competition.tablut.domain.Action
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import it.unibo.ai.didattica.competition.tablut.domain.State.Pawn
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
 
+/**
+ * Rules defining the effects on the state after a pawn movement.
+ */
 class UpdateRules private constructor() {
     companion object {
         fun stalemateAction(turn: Turn): Action =

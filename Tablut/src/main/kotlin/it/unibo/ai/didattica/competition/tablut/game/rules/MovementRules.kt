@@ -1,11 +1,11 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.game.rules
+package it.unibo.ai.didattica.competition.tablut.game.rules
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.Coord
+import it.unibo.ai.didattica.competition.tablut.game.board.Coord
 import it.unibo.ai.didattica.competition.tablut.domain.State.Pawn
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
 
 /**
- * Static class containing some useful game rules.
+ * Rules defining where a pawn can be moved.
  */
 class MovementRules private constructor() {
     companion object {

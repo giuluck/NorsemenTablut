@@ -2,7 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
 
 import aima.core.search.local.Individual
 import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
+import it.unibo.ai.didattica.competition.tablut.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State
 

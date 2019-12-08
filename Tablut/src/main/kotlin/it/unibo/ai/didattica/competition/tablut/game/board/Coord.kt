@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.game.board
+package it.unibo.ai.didattica.competition.tablut.game.board
 
 import it.unibo.ai.didattica.competition.tablut.domain.State
 import kotlin.math.abs

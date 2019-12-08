@@ -8,9 +8,9 @@ import io.kotlintest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.*
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.AshtonTablut
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allLegalMoves
+import it.unibo.ai.didattica.competition.tablut.game.AshtonTablut
+import it.unibo.ai.didattica.competition.tablut.game.TablutGame
+import it.unibo.ai.didattica.competition.tablut.game.board.allLegalMoves
 import it.unibo.ai.didattica.competition.tablut.domain.Game
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut
 import it.unibo.ai.didattica.competition.tablut.domain.State

@@ -1,10 +1,10 @@
 package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.TablutGame
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.Coord
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.Direction
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.allCoords
-import it.unibo.ai.didattica.competition.tablut.aiclient.game.board.kingCoord
+import it.unibo.ai.didattica.competition.tablut.game.TablutGame
+import it.unibo.ai.didattica.competition.tablut.game.board.Coord
+import it.unibo.ai.didattica.competition.tablut.game.board.Direction
+import it.unibo.ai.didattica.competition.tablut.game.board.allCoords
+import it.unibo.ai.didattica.competition.tablut.game.board.kingCoord
 import it.unibo.ai.didattica.competition.tablut.domain.State
 
 /**
