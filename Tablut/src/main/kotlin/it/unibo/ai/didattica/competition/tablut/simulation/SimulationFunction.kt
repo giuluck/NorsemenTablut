@@ -2,7 +2,7 @@ package it.unibo.ai.didattica.competition.tablut.simulation
 
 import aima.core.search.local.FitnessFunction
 import aima.core.search.local.Individual
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.GeneticHeuristic
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.GeneticHeuristic
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn
 

@@ -1,7 +1,7 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics
 
 import aima.core.search.local.Individual
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.TablutNorsemenClient
 import it.unibo.ai.didattica.competition.tablut.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.domain.State
@@ -37,13 +37,13 @@ class GeneticHeuristic(
 
     val heuristic: Heuristic = WeightedHeuristic(*info.toList().toTypedArray())
 
-    val whitePlayer: TablutClient = TablutIterativeDeepeningClient(
+    val whitePlayer: TablutClient = TablutNorsemenClient(
         player = "white",
         name = "Genetic",
         heuristic = heuristic
     )
 
-    val blackPlayer: TablutClient = TablutIterativeDeepeningClient(
+    val blackPlayer: TablutClient = TablutNorsemenClient(
         player = "black",
         name = "Genetic",
         heuristic = heuristic

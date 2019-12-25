@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics
 
 /**
  * The final heuristic to use for the white player.

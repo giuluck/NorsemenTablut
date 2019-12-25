@@ -1,15 +1,15 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.TablutIterativeDeepeningAlphaBetaSearch
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.*
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.TablutIterativeDeepeningAlphaBetaSearch
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.*
 
 /**
  * A Tablut intelligent client using a variant of iterative deepening Minimax search with alpha-beta pruning
  * and action ordering as the resolution strategy.
  */
-class TablutIterativeDeepeningClient @JvmOverloads constructor(
+class TablutNorsemenClient @JvmOverloads constructor(
     player: String,
-    name: String,
+    name: String = "Norsemen",
     timeout: Int = 60,
     ipAddress: String = "localhost",
     heuristic: Heuristic = if (player.toLowerCase() == "white") NorsemenWhiteHeuristic else NorsemenBlackHeuristic

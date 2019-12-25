@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics
 
 import it.unibo.ai.didattica.competition.tablut.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.game.board.playerCoords

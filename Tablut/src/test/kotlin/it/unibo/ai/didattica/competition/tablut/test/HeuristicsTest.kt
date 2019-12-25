@@ -7,7 +7,7 @@ import io.kotlintest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotlintest.matchers.doubles.shouldBeLessThanOrEqual
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.*
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.*
 import it.unibo.ai.didattica.competition.tablut.game.AshtonTablut
 import it.unibo.ai.didattica.competition.tablut.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.game.board.allLegalMoves

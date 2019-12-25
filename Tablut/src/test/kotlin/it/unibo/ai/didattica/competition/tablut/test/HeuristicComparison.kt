@@ -1,10 +1,10 @@
 package it.unibo.ai.didattica.competition.tablut.test
 
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.KingDistance
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.KingStrategicPosition
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.KingSurrounded
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.PawnsDifference
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.TablutNorsemenClient
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.KingDistance
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.KingStrategicPosition
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.KingSurrounded
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.PawnsDifference
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.simulation.TablutSimulation
 import it.unibo.ai.didattica.competition.tablut.simulation.saveToFile
@@ -17,7 +17,7 @@ fun main() {
         KingSurrounded(),
         PawnsDifference()
     ).flatMap { listOf("white", "black").map { role ->
-        TablutIterativeDeepeningClient(
+        TablutNorsemenClient(
             player = role,
             name = it::class.simpleName.orThrow() + role.capitalize(),
             timeout = 60,

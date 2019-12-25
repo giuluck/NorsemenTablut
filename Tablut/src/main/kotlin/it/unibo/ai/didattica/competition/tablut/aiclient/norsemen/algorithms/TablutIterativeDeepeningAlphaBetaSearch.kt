@@ -1,7 +1,7 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient.algorithms
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms
 
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.Heuristic
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.Heuristic
 import it.unibo.ai.didattica.competition.tablut.game.AshtonTablut
 import it.unibo.ai.didattica.competition.tablut.game.TablutGame
 import it.unibo.ai.didattica.competition.tablut.domain.Action

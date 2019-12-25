@@ -3,8 +3,8 @@ package it.unibo.ai.didattica.competition.tablut.test
 import aima.core.search.framework.problem.GoalTest
 import aima.core.search.local.GeneticAlgorithmForNumbers
 import aima.core.search.local.Individual
-import it.unibo.ai.didattica.competition.tablut.aiclient.TablutIterativeDeepeningClient
-import it.unibo.ai.didattica.competition.tablut.aiclient.algorithms.heuristics.*
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.TablutNorsemenClient
+import it.unibo.ai.didattica.competition.tablut.aiclient.norsemen.algorithms.heuristics.*
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient
 import it.unibo.ai.didattica.competition.tablut.simulation.SimulationFunction
 import it.unibo.ai.didattica.competition.tablut.util.toFile
@@ -24,15 +24,15 @@ fun main() {
 
     val whiteWeights = geneticallyComputedWeights(
         initialPopulation,
-        listOf(TablutIterativeDeepeningClient("black", "GeneticSimulation", 30))
+        listOf(TablutNorsemenClient("black", "GeneticSimulation", 30))
     )
-    "$whiteWeights".toFile("white.txt")
+    "$whiteWeights".toFile("benchmarks/white.txt")
 
     val blackWeights = geneticallyComputedWeights(
         initialPopulation,
-        listOf(TablutIterativeDeepeningClient("white", "GeneticSimulation", 30))
+        listOf(TablutNorsemenClient("white", "GeneticSimulation", 30))
     )
-    "$blackWeights".toFile("black.txt")
+    "$blackWeights".toFile("benchmarks/black.txt")
 }
 
 private fun geneticallyComputedWeights(

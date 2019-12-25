@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.aiclient
+package it.unibo.ai.didattica.competition.tablut.aiclient.norsemen
 
 import aima.core.search.adversarial.AdversarialSearch
 import it.unibo.ai.didattica.competition.tablut.game.board.isTerminal
