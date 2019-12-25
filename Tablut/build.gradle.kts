@@ -74,3 +74,28 @@ tasks.register<Jar>("fatJar") {
     }
     with(tasks.jar.get() as CopySpec)
 }
+
+tasks.register<Jar>("createCompetition") {
+    dependsOn(subprojects.map { it.tasks.withType<Jar>() })
+    manifest {
+        attributes(mapOf(
+            "Implementation-Title" to "TablutCompetition",
+            "Implementation-Version" to rootProject.version,
+            "Main-Class" to "it.unibo.ai.didattica.competition.tablut.simulation.CompetitionKt"
+        ))
+    }
+    archiveBaseName.set("TablutCompetition")
+    isZip64 = true
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }) {
+        // remove all signature files
+        exclude("META-INF/")
+        exclude("build")
+        exclude(".gradle")
+        exclude("build.gradle.kts")
+        exclude("gradle")
+        exclude("gradlew")
+        exclude("gradlew.bat")
+        exclude("settings.gradle.kts")
+    }
+    with(tasks.jar.get() as CopySpec)
+}

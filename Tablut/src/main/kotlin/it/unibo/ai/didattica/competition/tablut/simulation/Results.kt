@@ -100,6 +100,13 @@ fun Collection<Stats>.averageMoves(): Map<TablutClient, Double> = with(matches()
     totalMoves().toMutableMap().mapValues { it.value.toDouble() / getValue(it.key) }
 }
 
+/**
+ * Don't consider if a player is black or white and instead aggregate according to its name.
+ */
+fun <T> Map<TablutClient, T>.withoutRole(operation: List<T>.() -> T): Map<String, T> =
+    entries.groupBy { it.key.name }
+        .mapValues { (_, valueList) -> valueList.map { it.value }.operation() }
+
 private fun Collection<Stats>.allPlayers(): Set<TablutClient> = map { it.white } union map { it.black }
 
 private fun <T> Collection<Stats>.analyze(initial: T, computation: MutableMap<TablutClient, T>.(Stats) -> Unit): Map<TablutClient, T> =

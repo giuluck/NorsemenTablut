@@ -24,7 +24,7 @@ interface Simulation {
     fun championship(players: Collection<TablutClient>): Collection<Stats> =
         players.partition { it.player == Turn.WHITE }.let {
             (whitePlayers, blackPlayers) -> whitePlayers.flatMap { white ->
-                blackPlayers.map { black -> white vs black }
+                blackPlayers.filter { black -> black.name != white.name }.map { black -> white vs black }
             }.map { singleMatch(it, false) }
         }
 
